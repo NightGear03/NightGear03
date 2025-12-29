@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NightGear03 Tools | Premium Automation</title>
+    <title>NightGear03 Tools | Premium Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -14,14 +14,14 @@
                 extend: {
                     colors: {
                         black: '#050505',
-                        dark: '#111111',
-                        card: '#1A1A1A',
+                        dark: '#0F0F0F',
+                        card: '#161616',
                         gold: '#FFD700',
-                        goldDim: '#B8860B',
-                        text: '#CCCCCC'
+                        goldHover: '#E5C100',
+                        danger: '#FF3333'
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     }
                 }
@@ -29,87 +29,199 @@
         }
     </script>
     <style>
-        body { background-color: #050505; color: #CCCCCC; }
-        .gold-glow { box-shadow: 0 0 15px rgba(255, 215, 0, 0.1); }
-        .gradient-text {
-            background: linear-gradient(to right, #FFD700, #FDB931);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+        body { background-color: #050505; color: #CCCCCC; scroll-behavior: smooth; }
+        .gold-glow:hover { box-shadow: 0 0 20px rgba(255, 215, 0, 0.15); border-color: #FFD700; }
+        
+        /* Animasi Fade In */
+        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="antialiased selection:bg-gold selection:text-black">
 
-    <div class="max-w-2xl mx-auto px-6 py-12 text-center">
-        <div class="inline-block p-1 rounded-full bg-gradient-to-tr from-gold to-dark mb-4">
+    <header class="max-w-2xl mx-auto px-6 pt-12 pb-6 text-center">
+        <div class="inline-block p-1 rounded-full bg-gradient-to-br from-gold to-dark mb-4">
             <div class="bg-black rounded-full p-4 w-20 h-20 flex items-center justify-center mx-auto">
                 <span class="text-3xl font-bold text-gold font-mono">NG</span>
             </div>
         </div>
-        <h1 class="text-3xl font-extrabold tracking-tight text-white mb-2">NIGHTGEAR<span class="text-gold">03</span></h1>
-        <p class="text-sm font-mono text-gray-500 tracking-widest uppercase">Premium Automation Tools</p>
+        <h1 class="text-3xl font-extrabold text-white tracking-tight">NIGHTGEAR<span class="text-gold">03</span></h1>
+        <p class="text-xs font-mono text-gray-500 tracking-[0.2em] uppercase mt-2">Premium Automation Tools</p>
         
-        <div class="flex justify-center gap-4 mt-6">
-            <a href="#" class="text-gray-400 hover:text-gold transition"><i class="fab fa-github text-xl"></i></a>
-            <a href="#" class="text-gray-400 hover:text-gold transition"><i class="fab fa-discord text-xl"></i></a>
-            <a href="#" class="text-gray-400 hover:text-gold transition"><i class="fab fa-youtube text-xl"></i></a>
+        <div class="flex justify-center gap-6 mt-5 text-gray-500">
+            <a href="#" class="hover:text-gold transition"><i class="fab fa-github text-lg"></i></a>
+            <a href="#" class="hover:text-gold transition"><i class="fab fa-discord text-lg"></i></a>
+            <a href="#" class="hover:text-gold transition"><i class="fab fa-youtube text-lg"></i></a>
         </div>
-    </div>
+    </header>
 
-    <div class="max-w-xl mx-auto px-4 pb-20 space-y-6">
+    <nav class="max-w-xl mx-auto px-4 mb-8">
+        <div class="flex items-center justify-between mb-4">
+            <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider border-l-2 border-gold pl-3">Select Game Category</h3>
+        </div>
 
-        <div class="bg-card border border-gray-800 rounded-2xl p-6 relative overflow-hidden group hover:border-gold/50 transition duration-300 gold-glow">
-            <div class="absolute top-0 right-0 bg-gold text-black text-[10px] font-bold px-3 py-1 rounded-bl-lg font-mono">
-                V.FINAL FIXED
-            </div>
+        <div class="grid grid-cols-3 gap-3">
+            <button onclick="filterTools('rucoy')" class="bg-card border border-gray-800 hover:border-gold rounded-xl p-3 flex flex-col items-center gap-2 transition group active:scale-95">
+                <i class="fas fa-dungeon text-xl text-gray-500 group-hover:text-gold transition"></i>
+                <span class="text-[10px] font-bold text-gray-400 group-hover:text-white uppercase">Rucoy</span>
+            </button>
+
+            <button onclick="filterTools('pixel')" class="bg-card border border-gray-800 hover:border-gold rounded-xl p-3 flex flex-col items-center gap-2 transition group active:scale-95">
+                <i class="fas fa-cube text-xl text-gray-500 group-hover:text-gold transition"></i>
+                <span class="text-[10px] font-bold text-gray-400 group-hover:text-white uppercase">Pixel W.</span>
+            </button>
+
+            <button onclick="filterTools('other')" class="bg-card border border-gray-800 hover:border-gold rounded-xl p-3 flex flex-col items-center gap-2 transition group active:scale-95">
+                <i class="fas fa-microchip text-xl text-gray-500 group-hover:text-gold transition"></i>
+                <span class="text-[10px] font-bold text-gray-400 group-hover:text-white uppercase">Others</span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="toolsContainer" class="max-w-xl mx-auto px-4 pb-20 space-y-8">
+        
+        <div data-category="rucoy" class="tool-section space-y-5 animate-fade-in">
             
-            <div class="flex items-start gap-4">
-                <div class="bg-black p-3 rounded-xl border border-gray-800 text-gold">
-                    <i class="fas fa-flask text-2xl"></i>
+            <div class="bg-card border border-gray-800 rounded-2xl p-5 relative overflow-hidden group">
+                <div class="flex justify-between items-start">
+                    <div class="flex gap-4">
+                        <div class="bg-black p-3 rounded-xl border border-gray-700 text-gray-400">
+                            <i class="fas fa-flask text-2xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold text-white">Auto Mana <span class="text-gray-500 text-sm font-normal">Basic</span></h2>
+                            <span class="text-[10px] bg-gray-800 text-gray-300 px-2 py-0.5 rounded border border-gray-700 font-mono">Open Source</span>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <h2 class="text-xl font-bold text-white group-hover:text-gold transition">Rucoy Auto Mana</h2>
-                    <p class="text-xs text-gray-500 mt-1 font-mono">Rucoy Online • Android • No Root</p>
+
+                <div class="mt-4 space-y-2 text-xs font-mono text-gray-400 pl-1">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-check text-green-500 w-3"></i> <span>Auto Potion Logic</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-check text-green-500 w-3"></i> <span>Vertical Scanner</span>
+                    </div>
+                    <div class="flex items-center gap-3 opacity-40">
+                        <i class="fas fa-times text-red-500 w-3"></i> <span class="line-through">Record Proof Logic</span>
+                    </div>
+                    <div class="flex items-center gap-3 opacity-40">
+                        <i class="fas fa-times text-red-500 w-3"></i> <span class="line-through">Black Gold Overlay</span>
+                    </div>
+                    <div class="flex items-center gap-3 opacity-40">
+                        <i class="fas fa-times text-red-500 w-3"></i> <span class="line-through">Anti-Detect Pattern</span>
+                    </div>
                 </div>
-            </div>
 
-            <p class="text-sm text-gray-400 mt-4 leading-relaxed">
-                Bot pengisi mana otomatis dengan logika <span class="text-gold">Vertical Scanner</span> terbaru. Anti-ban features, overlay premium black-gold, dan smart cooldown.
-            </p>
-
-            <div class="flex flex-wrap gap-2 mt-4">
-                <span class="px-2 py-1 bg-black border border-gray-800 rounded text-[10px] text-gray-300">Anti-Detect</span>
-                <span class="px-2 py-1 bg-black border border-gray-800 rounded text-[10px] text-gray-300">Record Proof</span>
-                <span class="px-2 py-1 bg-black border border-gray-800 rounded text-[10px] text-gray-300">Overlay UI</span>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 mt-6">
-                <a href="sha256:5aad46964b419e9103a553c2d1a032931b10db93d3282a95c6d7cca85b7e1d3a" class="col-span-2 bg-gold hover:bg-yellow-400 text-black font-bold py-3 rounded-xl text-center transition flex items-center justify-center gap-2">
-                    <i class="fas fa-download"></i> Download APK
+                <a href="https://github.com/NightGear03/NightGear03/releases/download/Rucoy_Online/NGRC.Auto.Mana_v1.0.0.apk" 
+                   class="mt-5 w-full bg-gray-800 hover:bg-gray-700 text-white text-sm font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 border border-gray-700 shadow-lg">
+                    <i class="fas fa-download"></i> Download Free APK
                 </a>
             </div>
-        </div>
 
-        <div class="bg-dark border border-gray-800/50 rounded-2xl p-6 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition duration-500">
-            <div class="flex items-center gap-4">
-                <div class="bg-black p-3 rounded-xl border border-gray-800 text-gray-500">
-                    <i class="fas fa-robot text-2xl"></i>
+            <div class="relative bg-gradient-to-br from-[#1a1a1a] to-black border border-gold/50 rounded-2xl p-6 shadow-[0_0_25px_rgba(255,215,0,0.15)] transform transition duration-300 hover:scale-[1.01]">
+                
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-gold to-yellow-600 text-black text-[10px] font-bold px-4 py-1 rounded-full shadow-lg tracking-widest border border-yellow-300">
+                    RECOMMENDED
                 </div>
-                <div>
-                    <h2 class="text-lg font-bold text-gray-300">Next Project?</h2>
-                    <p class="text-xs text-gray-600 mt-1 font-mono">Auto Farm / Skill / Macro</p>
+
+                <div class="flex gap-4 mb-5 mt-1">
+                    <div class="bg-black p-3 rounded-xl border border-gold text-gold shadow-[0_0_15px_rgba(255,215,0,0.3)]">
+                        <i class="fas fa-crown text-2xl animate-pulse"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-white">Auto Mana <span class="text-gold">PRO</span></h2>
+                        <div class="flex items-center gap-1 mt-1">
+                            <i class="fas fa-shield-alt text-[10px] text-green-400"></i>
+                            <span class="text-[10px] text-gray-300 font-mono">Anti-Ban System</span>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="space-y-3 text-xs font-mono text-gray-300 mb-6 bg-black/40 p-4 rounded-xl border border-gray-800/50">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-check-circle text-gold w-3"></i> <span>All Free Features</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-check-circle text-gold w-3"></i> <span class="text-white font-bold">Record Proof (Anti-Lag)</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-check-circle text-gold w-3"></i> <span class="text-white font-bold">Black Gold Overlay UI</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-check-circle text-gold w-3"></i> <span>Smart Human Pattern</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-check-circle text-gold w-3"></i> <span>Direct WA Support</span>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between gap-4">
+                    <div class="text-center pl-2">
+                        <p class="text-[10px] text-gray-500 line-through decoration-red-500">Rp 50.000</p>
+                        <p class="text-xl font-bold text-gold">Rp 25k</p>
+                    </div>
+                    
+                    <a href="https://wa.me/6283101456267?text=Halo%20Bang%20NightGear,%20saya%20mau%20beli%20Auto%20Mana%20PRO%20Rucoy.%20Pembayaran%20lewat%20apa?" 
+                       target="_blank"
+                       class="flex-1 bg-gradient-to-r from-gold to-yellow-500 hover:to-yellow-400 text-black text-sm font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-gold/20">
+                        <i class="fab fa-whatsapp text-lg"></i> Beli Sekarang
+                    </a>
+                </div>
+                
+                <p class="text-[9px] text-center text-gray-600 mt-4 italic">
+                    File APK Premium dikirim langsung via Chat setelah pembayaran.
+                </p>
             </div>
         </div>
 
-    </div>
+        <div data-category="pixel" class="tool-section hidden space-y-5">
+            <div class="text-center py-10 text-gray-600 border border-gray-800 rounded-2xl border-dashed">
+                <i class="fas fa-hammer text-4xl mb-3 opacity-30"></i>
+                <p>No tools available for Pixel World yet.</p>
+            </div>
+        </div>
 
-    <footer class="text-center pb-10">
-        <p class="text-[10px] text-gray-600 font-mono">
-            &copy; 2025 NightGear03. All systems operational.<br>
-            Use at your own risk.
-        </p>
+        <div data-category="other" class="tool-section hidden space-y-5">
+            <div class="text-center py-10 text-gray-600 border border-gray-800 rounded-2xl border-dashed">
+                <i class="fas fa-code text-4xl mb-3 opacity-30"></i>
+                <p>More automation tools coming soon.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center py-8 border-t border-gray-900 mt-10">
+        <p class="text-[10px] text-gray-600 font-mono">&copy; 2025 NightGear03. Crafted for Gamers.</p>
     </footer>
 
+    <script>
+        // Default show rucoy
+        document.addEventListener('DOMContentLoaded', () => {
+            filterTools('rucoy');
+        });
+
+        function filterTools(category) {
+            const sections = document.querySelectorAll('.tool-section');
+            const buttons = document.querySelectorAll('nav button');
+
+            // Reset active state styles (Optional visual enhancement)
+            buttons.forEach(btn => {
+                btn.classList.remove('border-gold');
+                btn.classList.add('border-gray-800');
+            });
+
+            // Logic Filter
+            sections.forEach(sec => {
+                if (sec.getAttribute('data-category') === category) {
+                    sec.classList.remove('hidden');
+                    sec.classList.add('animate-fade-in');
+                } else {
+                    sec.classList.add('hidden');
+                    sec.classList.remove('animate-fade-in');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
