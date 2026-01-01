@@ -1,227 +1,291 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NightGear03 Tools | Premium Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Roihan Febrilian - Portfolio</title>
     
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        black: '#050505',
-                        dark: '#0F0F0F',
-                        card: '#161616',
-                        gold: '#FFD700',
-                        goldHover: '#E5C100',
-                        danger: '#FF3333'
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    }
-                }
-            }
-        }
-    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+
     <style>
-        body { background-color: #050505; color: #CCCCCC; scroll-behavior: smooth; }
-        .gold-glow:hover { box-shadow: 0 0 20px rgba(255, 215, 0, 0.15); border-color: #FFD700; }
+        /* --- 1. SETTING VISUAL --- */
+        :root {
+            --bg: #ffffff;
+            --primary: #006994;    /* Biru Laut */
+            --dark: #00334e;       /* Biru Gelap */
+            --accent: #e0f2fe;     /* Biru Muda */
+            --line: #cbd5e1;       
+            --text: #1e293b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* Animasi Fade In */
-        .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: var(--bg); color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* --- 2. BACKGROUND SYNCHRONIZED SHAPES --- */
+        .bg-layer {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none; overflow: hidden;
+        }
+        .outline-shape {
+            position: absolute; border: 2px solid var(--line); opacity: 0.4;
+            transition: transform 0.1s linear;
+        }
+        #shape1 { width: 60vh; height: 60vh; border-radius: 50%; top: -10%; right: -20%; border-style: dashed; }
+        #shape2 { width: 40vh; height: 40vh; bottom: 10%; left: -10%; border-radius: 40px; }
+        #shape3 { width: 20vh; height: 20vh; border-radius: 50%; top: 40%; left: 40%; border-color: var(--primary); opacity: 0.1; }
+
+        /* --- 3. SCROLL SNAP SYSTEM --- */
+        main { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+        section {
+            height: 100vh; width: 100%;
+            scroll-snap-align: start; scroll-snap-stop: always;
+            padding: 30px; position: relative;
+            /* Default layout flex center untuk slide selain slide 1 */
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        /* --- 4. ANIMASI --- */
+        .fade-up { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        section.active .fade-up { opacity: 1; transform: translateY(0); }
+        .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; }
+
+        /* --- 5. KHUSUS SLIDE 1 (HERO BARU) --- */
+        .hero-section {
+            display: block; /* Override flex */
+            padding-top: 80px; /* Jarak dari atas */
+        }
+        
+        .hero-text-wrap {
+            position: relative;
+            z-index: 2; /* Di atas foto */
+            max-width: 85%;
+        }
+
+        .hero-title { font-size: 3.2rem; font-weight: 800; line-height: 0.9; color: var(--dark); margin-bottom: 15px; }
+        .hero-subtitle { font-size: 1.2rem; color: var(--primary); font-weight: 700; margin-bottom: 15px; }
+        .hero-desc { max-width: 250px; font-size: 0.9rem; color: #666; line-height: 1.5; }
+
+        /* Container Foto Full Body PNG */
+        .hero-img-container {
+            position: absolute;
+            bottom: 0;
+            right: -20px; /* Geser dikit ke kanan biar artistik */
+            width: 80%; /* Lebar area foto */
+            height: 65vh; /* Tinggi area foto */
+            z-index: 1;
+            display: flex; align-items: flex-end; justify-content: flex-end;
+            pointer-events: none; /* Biar ga ganggu scroll */
+        }
+
+        .hero-img-container img {
+            height: 100%; 
+            width: auto; 
+            object-fit: contain; /* Penting buat PNG biar ga kepotong */
+            /* Filter bayangan biar nimbul */
+            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.15));
+            transform: translateY(50px); opacity: 0; transition: 1s ease-out;
+        }
+        
+        section.active .hero-img-container img { transform: translateY(0); opacity: 1; }
+
+        /* --- SLIDE LAINNYA (TETAP SAMA) --- */
+        .exp-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
+        .exp-card { background: white; padding: 12px 15px; border-radius: 12px; border-left: 5px solid var(--primary); box-shadow: 0 5px 20px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
+        .exp-info h4 { margin: 0; font-size: 0.95rem; color: var(--dark); }
+        .exp-info p { margin: 0; font-size: 0.8rem; color: #666; }
+        .exp-year { font-size: 0.7rem; font-weight: 700; color: var(--primary); background: var(--accent); padding: 4px 8px; border-radius: 50px; white-space: nowrap; margin-left: 10px; }
+
+        .skill-cat { font-size: 0.8rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; margin-top: 15px; }
+        .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
+        .pill { padding: 6px 14px; border: 1px solid var(--dark); border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
+        .pill.filled { background: var(--dark); color: white; }
+
+        .browser-mockup { border: 2px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-top: 20px; }
+        .browser-header { background: #f8f9fa; padding: 10px; display: flex; gap: 5px; border-bottom: 1px solid #eee; }
+        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
+        .browser-mockup img { width: 100%; height: 250px; object-fit: cover; display: block; }
+
+        .gallery-wrap { display: flex; overflow-x: scroll; gap: 15px; padding: 10px 0; scroll-snap-type: x mandatory; }
+        .photo-card { flex: 0 0 260px; height: 320px; border-radius: 20px; overflow: hidden; scroll-snap-align: center; position: relative; }
+        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
+        .photo-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; padding: 20px; }
+
+        .contact-actions { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; width: 100%; }
+        .btn-action { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 18px; border-radius: 12px; font-weight: 700; text-decoration: none; transition: transform 0.2s; }
+        .btn-action:active { transform: scale(0.95); }
+        .btn-wa { background: #25D366; color: white; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
+        .btn-email { background: var(--dark); color: white; box-shadow: 0 10px 20px rgba(0, 51, 78, 0.3); }
+
     </style>
 </head>
-<body class="antialiased selection:bg-gold selection:text-black">
+<body>
 
-    <header class="max-w-2xl mx-auto px-6 pt-12 pb-6 text-center">
-        <div class="inline-block p-1 rounded-full bg-gradient-to-br from-gold to-dark mb-4">
-            <div class="bg-black rounded-full p-4 w-20 h-20 flex items-center justify-center mx-auto">
-                <span class="text-3xl font-bold text-gold font-mono">NG</span>
-            </div>
-        </div>
-        <h1 class="text-3xl font-extrabold text-white tracking-tight">NIGHTGEAR<span class="text-gold">03</span></h1>
-        <p class="text-xs font-mono text-gray-500 tracking-[0.2em] uppercase mt-2">Premium Automation Tools</p>
-        
-        <div class="flex justify-center gap-6 mt-5 text-gray-500">
-            <a href="#" class="hover:text-gold transition"><i class="fab fa-github text-lg"></i></a>
-            <a href="#" class="hover:text-gold transition"><i class="fab fa-discord text-lg"></i></a>
-            <a href="#" class="hover:text-gold transition"><i class="fab fa-youtube text-lg"></i></a>
-        </div>
-    </header>
+    <div class="bg-layer">
+        <div class="outline-shape" id="shape1"></div>
+        <div class="outline-shape" id="shape2"></div>
+        <div class="outline-shape" id="shape3"></div>
+    </div>
 
-    <nav class="max-w-xl mx-auto px-4 mb-8">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-[10px] font-bold text-gray-400 uppercase tracking-wider border-l-2 border-gold pl-3">Select Game Category</h3>
-        </div>
+    <main>
 
-        <div class="grid grid-cols-3 gap-3">
-            <button onclick="filterTools('rucoy')" class="bg-card border border-gray-800 hover:border-gold rounded-xl p-3 flex flex-col items-center gap-2 transition group active:scale-95">
-                <i class="fas fa-dungeon text-xl text-gray-500 group-hover:text-gold transition"></i>
-                <span class="text-[10px] font-bold text-gray-400 group-hover:text-white uppercase">Rucoy</span>
-            </button>
-
-            <button onclick="filterTools('pixel')" class="bg-card border border-gray-800 hover:border-gold rounded-xl p-3 flex flex-col items-center gap-2 transition group active:scale-95">
-                <i class="fas fa-cube text-xl text-gray-500 group-hover:text-gold transition"></i>
-                <span class="text-[10px] font-bold text-gray-400 group-hover:text-white uppercase">Roblox</span>
-            </button>
-
-            <button onclick="filterTools('other')" class="bg-card border border-gray-800 hover:border-gold rounded-xl p-3 flex flex-col items-center gap-2 transition group active:scale-95">
-                <i class="fas fa-microchip text-xl text-gray-500 group-hover:text-gold transition"></i>
-                <span class="text-[10px] font-bold text-gray-400 group-hover:text-white uppercase">Others</span>
-            </button>
-        </div>
-    </nav>
-
-    <main id="toolsContainer" class="max-w-xl mx-auto px-4 pb-20 space-y-8">
-        
-        <div data-category="rucoy" class="tool-section space-y-5 animate-fade-in">
+        <section class="hero-section">
             
-            <div class="bg-card border border-gray-800 rounded-2xl p-5 relative overflow-hidden group">
-                <div class="flex justify-between items-start">
-                    <div class="flex gap-4">
-                        <div class="bg-black p-3 rounded-xl border border-gray-700 text-gray-400">
-                            <i class="fas fa-flask text-2xl"></i>
-                        </div>
-                        <div>
-                            <h2 class="text-lg font-bold text-white">Auto Mana <span class="text-gray-500 text-sm font-normal">Basic</span></h2>
-                            <span class="text-[10px] bg-gray-800 text-gray-300 px-2 py-0.5 rounded border border-gray-700 font-mono">Free Edition</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="mt-4 space-y-2 text-xs font-mono text-gray-400 pl-1">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check text-green-500 w-3"></i> <span>Auto Tap Mana Potion</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check text-green-500 w-3"></i> <span>Percentage Selection</span>
-                    </div>
-                    <div class="flex items-center gap-3 opacity-40">
-                        <i class="fas fa-times text-red-500 w-3"></i> <span class="line-through">Potion Counter</span>
-                    </div>
-                    <div class="flex items-center gap-3 opacity-40">
-                        <i class="fas fa-times text-red-500 w-3"></i> <span class="line-through">Minimize</span>
-                    </div>
-                    <div class="flex items-center gap-3 opacity-40">
-                        <i class="fas fa-times text-red-500 w-3"></i> <span class="line-through">Hard Detect Pattern</span>
-                    </div>
-                </div>
-
-                <a href="https://github.com/NightGear03/NightGear03/releases/download/Rucoy_Online/NGRC.Auto.Mana_v1.0.0.apk" 
-                   class="mt-5 w-full bg-gray-800 hover:bg-gray-700 text-white text-sm font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 border border-gray-700 shadow-lg">
-                    <i class="fas fa-download"></i> Download Free APK
-                </a>
-            </div>
-
-            <div class="relative bg-gradient-to-br from-[#1a1a1a] to-black border border-gold/50 rounded-2xl p-6 shadow-[0_0_25px_rgba(255,215,0,0.15)] transform transition duration-300 hover:scale-[1.01]">
+            <div class="hero-text-wrap">
+                <h2 class="fade-up d1" style="font-size:0.9rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;">Portfolio</h2>
                 
-                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-gold to-yellow-600 text-black text-[10px] font-bold px-4 py-1 rounded-full shadow-lg tracking-widest border border-yellow-300">
-                    RECOMMENDED
-                </div>
-
-                <div class="flex gap-4 mb-5 mt-1">
-                    <div class="bg-black p-3 rounded-xl border border-gold text-gold shadow-[0_0_15px_rgba(255,215,0,0.3)]">
-                        <i class="fas fa-crown text-2xl animate-pulse"></i>
-                    </div>
-                    <div>
-                        <h2 class="text-xl font-bold text-white">Auto Mana <span class="text-gold">PRO</span></h2>
-                        <div class="flex items-center gap-1 mt-1">
-                            <i class="fas fa-shield-alt text-[10px] text-green-400"></i>
-                            <span class="text-[10px] text-gray-300 font-mono">Paid Edition</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-3 text-xs font-mono text-gray-300 mb-6 bg-black/40 p-4 rounded-xl border border-gray-800/50">
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-gold w-3"></i> <span>Auto Tap Mana Potion</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-gold w-3"></i> <span class="text-white font-bold">Percentage Selection</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-gold w-3"></i> <span class="text-white font-bold">Potion Counter </span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-gold w-3"></i> <span>Minimize</span>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <i class="fas fa-check-circle text-gold w-3"></i> <span>Hard Detect Pattern</span>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between gap-4">
-                    <div class="text-center pl-2">
-                        <p class="text-[10px] text-gray-500 line-through decoration-red-500">Rp 50.000</p>
-                        <p class="text-xl font-bold text-gold">Rp 25k</p>
-                    </div>
-                    
-                    <a href="https://wa.me/6283101456267?text=Halo%20Bang%20NightGear,%20saya%20mau%20beli%20Auto%20Mana%20PRO%20Rucoy.%20Pembayaran%20lewat%20apa?" 
-                       target="_blank"
-                       class="flex-1 bg-gradient-to-r from-gold to-yellow-500 hover:to-yellow-400 text-black text-sm font-bold py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-gold/20">
-                        <i class="fab fa-whatsapp text-lg"></i> Beli Sekarang
-                    </a>
+                <h1 class="hero-title fade-up d2">
+                    Roihan<br>Febrilian.
+                </h1>
+                
+                <div class="hero-subtitle fade-up d3">
+                    Industrial Operator &<br>Web Developer
                 </div>
                 
-                <p class="text-[9px] text-center text-gray-600 mt-4 italic">
-                    File APK Premium dikirim langsung via Chat setelah pembayaran.
+                <p class="hero-desc fade-up d3">
+                    Menggabungkan ketelitian mesin industri dengan logika kode digital.
                 </p>
             </div>
-        </div>
 
-        <div data-category="pixel" class="tool-section hidden space-y-5">
-            <div class="text-center py-10 text-gray-600 border border-gray-800 rounded-2xl border-dashed">
-                <i class="fas fa-hammer text-4xl mb-3 opacity-30"></i>
-                <p>No tools available for Pixel World yet.</p>
+            <div class="hero-img-container">
+                <img src="https://i.imgur.com/BWxhsLS.png" alt="Roihan Full Body">
             </div>
-        </div>
 
-        <div data-category="other" class="tool-section hidden space-y-5">
-            <div class="text-center py-10 text-gray-600 border border-gray-800 rounded-2xl border-dashed">
-                <i class="fas fa-code text-4xl mb-3 opacity-30"></i>
-                <p>More automation tools coming soon.</p>
+        </section>
+
+        <section>
+            <h2 style="color:var(--primary); font-weight:700;">TRACK RECORD</h2>
+            <h1 style="font-size: 2rem; color:var(--dark);">Experience.</h1>
+            <div class="exp-grid fade-up d1">
+                <div class="exp-card">
+                    <div class="exp-info"><h4>Store Crew</h4><p>Yomart</p></div>
+                    <div class="exp-year">Okt 24 - Des 24</div>
+                </div>
+                <div class="exp-card">
+                    <div class="exp-info"><h4>Op. Painting</h4><p>PT. Craze Indo</p></div>
+                    <div class="exp-year">Mar 24 - Ags 24</div>
+                </div>
+                <div class="exp-card">
+                    <div class="exp-info"><h4>Op. Produksi</h4><p>PT. Epson</p></div>
+                    <div class="exp-year">Okt 21 - Okt 23</div>
+                </div>
+                 <div class="exp-card">
+                    <div class="exp-info"><h4>Helper Teknisi</h4><p>CV. Multi Eng.</p></div>
+                    <div class="exp-year">Ags 21 - Okt 21</div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <section>
+            <h2 style="color:var(--primary); font-weight:700;">ARSENAL</h2>
+            <h1 style="font-size: 2rem; color:var(--dark);">Skills.</h1>
+            <div class="fade-up d1">
+                <span class="skill-cat">HARD SKILLS (INDUSTRIAL)</span>
+                <div class="skill-list">
+                    <div class="pill">Centerless Grinding</div>
+                    <div class="pill">CNC Operation</div>
+                    <div class="pill">Stamping Press</div>
+                    <div class="pill">Painting</div>
+                </div>
+            </div>
+            <div class="fade-up d2">
+                <span class="skill-cat">SOFT & DIGITAL SKILLS</span>
+                <div class="skill-list">
+                    <div class="pill filled">Web Developing</div>
+                    <div class="pill filled">Admin Excel</div>
+                    <div class="pill filled">Adobe PS</div>
+                    <div class="pill filled">Adobe AE</div>
+                    <div class="pill filled">Ms. Excel</div>
+                    <div class="pill filled">Ms. Word</div>
+                    <div class="pill filled">PowerPoint</div>
+                    <div class="pill filled">Public Speaking</div>
+                    <div class="pill filled">Basic English</div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 style="color:var(--primary); font-weight:700;">WEB DEVELOPMENT</h2>
+            <h1 style="font-size: 2.2rem; color:var(--dark); line-height:1;">Gearshop<br>System.</h1>
+            <p style="margin-top:10px;">Virtual Economy Marketplace dengan fitur Lelang Real-time.</p>
+            <div class="browser-mockup fade-up d2">
+                <div class="browser-header">
+                    <div class="dot" style="background:#ff5f56"></div>
+                    <div class="dot" style="background:#ffbd2e"></div>
+                    <div class="dot" style="background:#27c93f"></div>
+                </div>
+                <img src="https://images.unsplash.com/photo-1614726365723-49cfae92782f?q=80&w=600" alt="Gearshop App">
+            </div>
+        </section>
+
+        <section>
+            <h2 style="color:var(--primary); font-weight:700;">SIDE PASSION</h2>
+            <h1 style="font-size: 2.2rem; color:var(--dark);">Street<br>Gallery.</h1>
+            <p>Menangkap momen candid di jalanan.</p>
+            <div class="gallery-wrap fade-up d2">
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=400" alt="Street 1">
+                    <div class="photo-overlay"><span>Urban Life</span></div>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1542382903-51924619d880?q=80&w=400" alt="Street 2">
+                    <div class="photo-overlay"><span>Moment</span></div>
+                </div>
+                <div class="photo-card">
+                    <img src="https://images.unsplash.com/photo-1495539506691-2364c6778f67?q=80&w=400" alt="Street 3">
+                    <div class="photo-overlay"><span>Perspective</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div style="text-align: center; width: 100%;">
+                <h1 style="font-size: 3rem; color:var(--dark); margin-bottom: 10px;">Let's<br>Work.</h1>
+                <p>Siap berkontribusi dengan disiplin tinggi.</p>
+                <div class="contact-actions fade-up d2">
+                    <a href="https://wa.me/6283101456267" class="btn-action btn-wa">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+                        Hubungi via WhatsApp
+                    </a>
+                    <a href="mailto:roihanfebrilian303@gmail.com" class="btn-action btn-email">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        Kirim Email
+                    </a>
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <footer class="text-center py-8 border-t border-gray-900 mt-10">
-        <p class="text-[10px] text-gray-600 font-mono">&copy; 2025 NightGear03. Crafted for Gamers.</p>
-    </footer>
-
     <script>
-        // Default show rucoy
-        document.addEventListener('DOMContentLoaded', () => {
-            filterTools('rucoy');
+        const shape1 = document.getElementById('shape1');
+        const shape2 = document.getElementById('shape2');
+        const shape3 = document.getElementById('shape3');
+
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY;
+            if(shape1) shape1.style.transform = `rotate(${scrollPos * 0.1}deg)`;
+            if(shape2) shape2.style.transform = `rotate(-${scrollPos * 0.2}deg) translateY(${scrollPos * 0.05}px)`;
+            if(shape3) shape3.style.transform = `scale(${1 + scrollPos * 0.0005})`;
         });
 
-        function filterTools(category) {
-            const sections = document.querySelectorAll('.tool-section');
-            const buttons = document.querySelectorAll('nav button');
-
-            // Reset active state styles (Optional visual enhancement)
-            buttons.forEach(btn => {
-                btn.classList.remove('border-gold');
-                btn.classList.add('border-gray-800');
-            });
-
-            // Logic Filter
-            sections.forEach(sec => {
-                if (sec.getAttribute('data-category') === category) {
-                    sec.classList.remove('hidden');
-                    sec.classList.add('animate-fade-in');
+        const sections = document.querySelectorAll('section');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
                 } else {
-                    sec.classList.add('hidden');
-                    sec.classList.remove('animate-fade-in');
+                    entry.target.classList.remove('active');
                 }
             });
-        }
+        }, { threshold: 0.5 });
+        sections.forEach(s => observer.observe(s));
     </script>
 </body>
 </html>
