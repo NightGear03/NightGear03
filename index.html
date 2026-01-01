@@ -1,3 +1,4 @@
+</html>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -47,7 +48,6 @@
             height: 100vh; width: 100%;
             scroll-snap-align: start; scroll-snap-stop: always;
             padding: 30px; position: relative;
-            /* Default layout flex center untuk slide selain slide 1 */
             display: flex; flex-direction: column; justify-content: center;
         }
 
@@ -56,72 +56,122 @@
         section.active .fade-up { opacity: 1; transform: translateY(0); }
         .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; }
 
-        /* --- 5. KHUSUS SLIDE 1 (HERO BARU) --- */
-        .hero-section {
-            display: block; /* Override flex */
-            padding-top: 80px; /* Jarak dari atas */
-        }
+        /* --- 5. COMPONENT STYLES (MOBILE FIRST) --- */
         
-        .hero-text-wrap {
-            position: relative;
-            z-index: 2; /* Di atas foto */
-            max-width: 85%;
-        }
-
+        /* HERO SECTION */
+        .hero-section { display: block; padding-top: 80px; }
+        .hero-text-wrap { position: relative; z-index: 2; max-width: 85%; }
         .hero-title { font-size: 3.2rem; font-weight: 800; line-height: 0.9; color: var(--dark); margin-bottom: 15px; }
         .hero-subtitle { font-size: 1.2rem; color: var(--primary); font-weight: 700; margin-bottom: 15px; }
         .hero-desc { max-width: 250px; font-size: 0.9rem; color: #666; line-height: 1.5; }
 
-        /* Container Foto Full Body PNG */
         .hero-img-container {
-            position: absolute;
-            bottom: 0;
-            right: -20px; /* Geser dikit ke kanan biar artistik */
-            width: 80%; /* Lebar area foto */
-            height: 65vh; /* Tinggi area foto */
-            z-index: 1;
+            position: absolute; bottom: 0; right: -20px; 
+            width: 80%; height: 65vh; z-index: 1;
             display: flex; align-items: flex-end; justify-content: flex-end;
-            pointer-events: none; /* Biar ga ganggu scroll */
+            pointer-events: none;
         }
-
         .hero-img-container img {
-            height: 100%; 
-            width: auto; 
-            object-fit: contain; /* Penting buat PNG biar ga kepotong */
-            /* Filter bayangan biar nimbul */
+            height: 100%; width: auto; object-fit: contain;
             filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.15));
             transform: translateY(50px); opacity: 0; transition: 1s ease-out;
         }
-        
         section.active .hero-img-container img { transform: translateY(0); opacity: 1; }
 
-        /* --- SLIDE LAINNYA (TETAP SAMA) --- */
+        /* EXPERIENCE */
         .exp-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
         .exp-card { background: white; padding: 12px 15px; border-radius: 12px; border-left: 5px solid var(--primary); box-shadow: 0 5px 20px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
         .exp-info h4 { margin: 0; font-size: 0.95rem; color: var(--dark); }
         .exp-info p { margin: 0; font-size: 0.8rem; color: #666; }
         .exp-year { font-size: 0.7rem; font-weight: 700; color: var(--primary); background: var(--accent); padding: 4px 8px; border-radius: 50px; white-space: nowrap; margin-left: 10px; }
 
+        /* SKILLS */
         .skill-cat { font-size: 0.8rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; margin-top: 15px; }
         .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
         .pill { padding: 6px 14px; border: 1px solid var(--dark); border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
         .pill.filled { background: var(--dark); color: white; }
 
+        /* PROJECT */
         .browser-mockup { border: 2px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-top: 20px; }
         .browser-header { background: #f8f9fa; padding: 10px; display: flex; gap: 5px; border-bottom: 1px solid #eee; }
         .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
         .browser-mockup img { width: 100%; height: 250px; object-fit: cover; display: block; }
 
+        /* GALLERY */
         .gallery-wrap { display: flex; overflow-x: scroll; gap: 15px; padding: 10px 0; scroll-snap-type: x mandatory; }
         .photo-card { flex: 0 0 260px; height: 320px; border-radius: 20px; overflow: hidden; scroll-snap-align: center; position: relative; }
         .photo-card img { width: 100%; height: 100%; object-fit: cover; }
         .photo-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; padding: 20px; }
 
+        /* CONTACT */
+        .contact-container { width: 100%; text-align: center; }
         .contact-actions { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; width: 100%; }
         .btn-action { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 18px; border-radius: 12px; font-weight: 700; text-decoration: none; transition: transform 0.2s; }
         .btn-action:active { transform: scale(0.95); }
         .btn-wa { background: #25D366; color: white; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
         .btn-email { background: var(--dark); color: white; box-shadow: 0 10px 20px rgba(0, 51, 78, 0.3); }
+
+        /* --- 6. DESKTOP OPTIMIZATION (MEDIA QUERY) --- */
+        /* Ini kode supaya tampilan di Laptop/PC enak dilihat */
+        @media (min-width: 1024px) {
+            
+            /* Atur ulang padding biar konten ada di tengah rapi */
+            section {
+                padding: 0 15%; /* Kanan kiri lega */
+                align-items: center; /* Konten di tengah */
+            }
+
+            /* HERO SECTION DESKTOP */
+            .hero-section {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 10%;
+            }
+            .hero-text-wrap {
+                max-width: 45%;
+                margin-top: -50px; /* Biar agak naik dikit sejajar mata */
+            }
+            .hero-title { font-size: 5rem; } /* Font judul digedein buat PC */
+            .hero-subtitle { font-size: 1.5rem; }
+            .hero-desc { max-width: 400px; font-size: 1.1rem; }
+            
+            .hero-img-container {
+                width: 50%;
+                height: 90vh; /* Gambar lebih tinggi */
+                right: 50px;
+                align-items: flex-end;
+            }
+
+            /* EXPERIENCE DESKTOP (2 Kolom) */
+            .exp-grid {
+                grid-template-columns: 1fr 1fr; /* Jadi 2 kolom */
+                gap: 20px;
+                width: 100%;
+                max-width: 900px; /* Batasi lebar biar gak melar */
+            }
+
+            /* SKILLS DESKTOP */
+            .skill-list {
+                justify-content: center; /* Skill rata tengah */
+                max-width: 800px;
+            }
+
+            /* PROJECT DESKTOP */
+            .browser-mockup {
+                max-width: 700px; /* Batasi lebar browser */
+                margin-left: auto; margin-right: auto;
+            }
+            .browser-mockup img { height: 400px; }
+
+            /* CONTACT DESKTOP (Tombol Sebelahan) */
+            .contact-container { max-width: 600px; }
+            .contact-actions {
+                flex-direction: row; /* Tombol jadi berjejer ke samping */
+                justify-content: center;
+            }
+            .btn-action { width: 100%; } /* Penuhi ruang flex */
+        }
 
     </style>
 </head>
@@ -136,27 +186,15 @@
     <main>
 
         <section class="hero-section">
-            
             <div class="hero-text-wrap">
                 <h2 class="fade-up d1" style="font-size:0.9rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;">Portfolio</h2>
-                
-                <h1 class="hero-title fade-up d2">
-                    Roihan<br>Febrilian.
-                </h1>
-                
-                <div class="hero-subtitle fade-up d3">
-                    Industrial Operator &<br>Web Developer
-                </div>
-                
-                <p class="hero-desc fade-up d3">
-                    Menggabungkan ketelitian mesin industri dengan logika kode digital.
-                </p>
+                <h1 class="hero-title fade-up d2">Roihan<br>Febrilian.</h1>
+                <div class="hero-subtitle fade-up d3">Industrial Operator &<br>Web Developer</div>
+                <p class="hero-desc fade-up d3">Menggabungkan ketelitian mesin industri dengan logika kode digital.</p>
             </div>
-
             <div class="hero-img-container">
                 <img src="https://i.imgur.com/BWxhsLS.png" alt="Roihan Full Body">
             </div>
-
         </section>
 
         <section>
@@ -185,7 +223,7 @@
         <section>
             <h2 style="color:var(--primary); font-weight:700;">ARSENAL</h2>
             <h1 style="font-size: 2rem; color:var(--dark);">Skills.</h1>
-            <div class="fade-up d1">
+            <div class="fade-up d1" style="width: 100%; display:flex; flex-direction:column; align-items:center;">
                 <span class="skill-cat">HARD SKILLS (INDUSTRIAL)</span>
                 <div class="skill-list">
                     <div class="pill">Centerless Grinding</div>
@@ -194,7 +232,7 @@
                     <div class="pill">Painting</div>
                 </div>
             </div>
-            <div class="fade-up d2">
+            <div class="fade-up d2" style="width: 100%; display:flex; flex-direction:column; align-items:center;">
                 <span class="skill-cat">SOFT & DIGITAL SKILLS</span>
                 <div class="skill-list">
                     <div class="pill filled">Web Developing</div>
@@ -245,7 +283,7 @@
         </section>
 
         <section>
-            <div style="text-align: center; width: 100%;">
+            <div class="contact-container">
                 <h1 style="font-size: 3rem; color:var(--dark); margin-bottom: 10px;">Let's<br>Work.</h1>
                 <p>Siap berkontribusi dengan disiplin tinggi.</p>
                 <div class="contact-actions fade-up d2">
