@@ -30,154 +30,77 @@
         .user-badge { font-family: 'Rajdhani', sans-serif; font-weight: bold; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 5px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
         .login-btn { font-family: 'Rajdhani', sans-serif; border: 1px solid #444; color: #aaa; padding: 5px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
         
-        /* --- MOD CARDS --- */
-        .mod-card {
-            background: #0d121c; border: 1px solid var(--border); border-radius: 12px;
-            padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; transition: 0.3s;
+        /* MENU GRID */
+        .grid-menu { display: grid; gap: 12px; }
+        .card-menu {
+            background: rgba(15, 20, 30, 0.8); border: 1px solid var(--border);
+            padding: 18px; border-radius: 10px; display: flex; align-items: center; gap: 15px;
+            cursor: pointer; transition: 0.2s; position: relative; overflow: hidden;
         }
-        .mod-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-        .mod-title { font-size: 1.1rem; color: #fff; font-weight: 900; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-menu:hover { border-color: var(--glow-blue); background: rgba(0, 119, 255, 0.08); transform: translateX(5px); }
+        .card-icon { width: 45px; height: 45px; background: rgba(0,119,255,0.1); border-radius: 10px; display: flex; justify-content: center; align-items: center; color: var(--glow-blue); font-size: 1.2rem; }
         
+        /* SERVICE REQUEST CARD (SPECIAL) */
+        .card-service { border-color: var(--accent-gold); background: rgba(230, 184, 0, 0.05); }
+        .card-service .card-icon { background: rgba(230, 184, 0, 0.1); color: var(--accent-gold); }
+        .card-service:hover { border-color: #fff; background: rgba(230, 184, 0, 0.1); }
+
+        /* MOD CARDS */
+        .mod-card { background: #0d121c; border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; position: relative; }
+        .mod-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .mod-title { font-size: 1.1rem; color: #fff; font-weight: 900; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; }
         .badge { font-size: 0.6rem; padding: 3px 6px; border-radius: 3px; font-weight: bold; letter-spacing: 1px; }
         .b-free { background: rgba(0, 119, 255, 0.1); color: var(--glow-blue); border: 1px solid var(--accent-blue); }
         .b-prem { background: rgba(230, 184, 0, 0.1); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
         .b-admin { background: #330000; color: var(--accent-red); border: 1px solid var(--accent-red); }
 
         .mod-desc { font-size: 0.9rem; color: #ccc; line-height: 1.6; }
-        .ui-btn { display: inline-block; background: #222; border: 1px solid #555; color: #fff; padding: 0px 6px; border-radius: 4px; font-size: 0.75rem; font-family: monospace; box-shadow: 0 2px 0 #000; margin: 0 2px; }
+        .ui-btn { display: inline-block; background: #222; border: 1px solid #555; color: #fff; padding: 0px 6px; border-radius: 4px; font-size: 0.75rem; font-family: monospace; }
         .txt-gold { color: var(--accent-gold); font-weight: bold; }
-        .txt-red { color: var(--accent-red); font-weight: bold; }
-        .txt-code { background: #000; color: #0f0; font-family: monospace; padding: 2px 5px; border-radius: 3px; border: 1px solid #333; }
-
-        /* LOCKED STATE */
-        .mod-card.locked { background: #080a0f; border-color: #222; opacity: 1; }
-        .mod-card.locked .mod-desc, .mod-card.locked .btn-download, .mod-card.locked .donation-box { display: none !important; }
+        
+        .mod-card.locked .mod-desc, .mod-card.locked .btn-download { display: none; }
         .lock-container { border: 1px dashed var(--accent-gold); background: rgba(230, 184, 0, 0.05); padding: 20px; text-align: center; border-radius: 8px; margin-top: 10px; }
-        .lock-icon { font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 10px; }
-        .lock-text { color: #888; font-size: 0.8rem; margin-bottom: 10px; }
-        .btn-unlock { background: #111; color: var(--accent-gold); border: 1px solid var(--accent-gold); padding: 5px 15px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+        .btn-download { background: var(--text-main); color: #000; display: block; width: 100%; padding: 12px; text-align: center; border-radius: 6px; text-decoration: none; font-weight: 800; font-family: 'Rajdhani', sans-serif; margin-top: 15px; }
 
-        /* HAZARD STYLE */
-        .mod-card.hazard { background: repeating-linear-gradient(45deg, #1a0505, #1a0505 10px, #2b0000 10px, #2b0000 20px); border: 1px solid var(--accent-red); }
-        .mod-card.hazard .mod-title { color: var(--accent-red); text-shadow: 0 0 5px red; }
+        /* AUTH PAGES */
+        .auth-box { background: #0b101a; border: 1px solid #222; padding: 25px; border-radius: 15px; max-width: 400px; margin: 20px auto; }
+        .adm-input { width: 100%; background: #000; border: 1px solid #333; color: #eee; padding: 12px; margin-bottom: 15px; border-radius: 6px; font-family: inherit; }
+        .btn-auth { width: 100%; padding: 12px; border: none; font-weight: bold; border-radius: 6px; cursor: pointer; }
+        .btn-gold { background: var(--accent-gold); color: #000; }
         
-        .btn-download {
-            background: var(--text-main); color: #000; display: block; width: 100%;
-            padding: 12px; text-align: center; border-radius: 6px; text-decoration: none;
-            font-weight: 800; font-family: 'Rajdhani', sans-serif; margin-top: 15px; letter-spacing: 1px; transition: 0.2s;
-        }
-        .btn-download:hover { background: var(--glow-blue); box-shadow: 0 0 15px var(--glow-blue); }
-        .donation-box { margin-top: 15px; background: rgba(197, 160, 89, 0.05); border: 1px dashed var(--accent-gold); padding: 12px; border-radius: 8px; text-align: center; }
-        .copy-cmd { background: #000; color: #4ade80; font-family: monospace; padding: 8px; border-radius: 4px; cursor: pointer; display: block; border: 1px solid #333; margin-top: 5px; }
+        .security-warn { background: rgba(255, 50, 50, 0.1); border: 1px solid var(--accent-red); color: #ffaaaa; padding: 10px; border-radius: 6px; font-size: 0.75rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .file-upload { border: 2px dashed #333; padding: 15px; text-align: center; border-radius: 6px; cursor: pointer; margin-bottom: 15px; color: #666; font-size: 0.85rem; }
+        .file-upload.selected { border-color: var(--accent-blue); color: var(--accent-blue); }
 
-        .grid-menu { display: grid; gap: 12px; }
-        .card-menu {
-            background: rgba(15, 20, 30, 0.8); border: 1px solid var(--border);
-            padding: 18px; border-radius: 10px; display: flex; align-items: center; gap: 15px;
-            cursor: pointer; transition: 0.2s;
-        }
-        .card-menu:hover { border-color: var(--glow-blue); background: rgba(0, 119, 255, 0.08); transform: translateX(5px); }
-
-        /* --- ADMIN PANEL CSS (DESKTOP DEFAULT) --- */
-        #admin-panel {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #080808; z-index: 9999; display: none;
-            overflow: hidden; font-family: 'Lato', sans-serif;
-        }
-        .adm-layout { display: grid; grid-template-columns: 380px 1fr; height: 100%; }
+        /* ADMIN PANEL FULLSCREEN */
+        #admin-panel { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #080808; z-index: 9999; display: none; overflow: hidden; font-family: 'Lato', sans-serif; }
+        .adm-layout { display: grid; grid-template-columns: 350px 1fr; height: 100%; }
+        .adm-sidebar { background: #0c0c0c; border-right: 1px solid #222; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; padding: 20px; }
+        .adm-content { background: #050505; display: flex; flex-direction: column; height: 100vh; padding: 20px; }
         
-        .adm-sidebar { background: #0c0c0c; border-right: 1px solid #222; display: flex; flex-direction: column; height: 100vh; }
-        .adm-header { padding: 20px; border-bottom: 1px solid #222; text-align: center; background: #050505; }
-        .adm-header h2 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.2rem; }
-        .adm-form-scroll { padding: 20px; overflow-y: auto; flex: 1; }
-        .form-section { margin-bottom: 25px; border: 1px solid #222; padding: 15px; border-radius: 8px; background: #111; }
-        .form-legend { font-size: 0.7rem; color: #666; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: block; letter-spacing: 1px; }
-        
-        .adm-label { display: block; font-size: 0.75rem; color: #888; margin-bottom: 5px; font-weight: bold; }
-        .adm-input, .adm-select, .adm-textarea {
-            width: 100%; background: #000; border: 1px solid #333; color: #eee; padding: 10px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; margin-bottom: 10px;
-        }
-        .adm-input:focus, .adm-textarea:focus { border-color: var(--accent-blue); outline: none; }
-        .toolbar { display: flex; gap: 5px; margin-bottom: 5px; flex-wrap: wrap; }
-        .tool-btn { background: #222; color: #ccc; border: 1px solid #333; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 0.7rem; }
-        .adm-actions { padding: 20px; border-top: 1px solid #222; background: #050505; display: flex; gap: 10px; }
-        .btn-save { flex: 2; background: var(--accent-gold); color: #000; border: none; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
-        .btn-reset { flex: 1; background: #222; color: #fff; border: 1px solid #333; cursor: pointer; border-radius: 4px; }
-
-        .adm-content { background: #080808; display: flex; flex-direction: column; height: 100vh; }
-        .db-header { padding: 20px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #050505; }
-        .db-search { background: #111; border: 1px solid #333; color: #fff; padding: 8px 15px; border-radius: 4px; width: 300px; }
-        .db-list { flex: 1; overflow-y: auto; padding: 20px; }
-        
-        /* DATABASE ROW (Desktop) */
-        .db-row { 
-            display: grid; grid-template-columns: 30px 2fr 1fr 1fr 1fr 100px; 
-            align-items: center; background: #111; border: 1px solid #222; 
-            padding: 10px; margin-bottom: 8px; border-radius: 4px; font-size: 0.85rem; transition: 0.2s;
-        }
-        .db-row:hover { border-color: #444; background: #161616; }
-        .db-head { font-weight: bold; color: #666; background: transparent; border: none; margin-bottom: 10px; }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-        .s-free { background: var(--accent-blue); }
-        .s-prem { background: var(--accent-gold); }
-        .s-adm { background: var(--accent-red); }
-        .row-actions button { background: none; border: none; cursor: pointer; font-size: 0.9rem; margin-left: 10px; }
+        /* ADMIN LIST */
+        .db-list { flex: 1; overflow-y: auto; margin-top: 10px; }
+        .db-row { background: #111; padding: 12px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; border-radius: 4px; }
+        .db-info strong { display: block; color: #fff; font-size: 0.9rem; }
+        .db-info span { color: #666; font-size: 0.8rem; }
+        .db-actions button { background: none; border: none; cursor: pointer; margin-left: 10px; font-size: 1rem; }
         .act-edit { color: var(--accent-blue); }
         .act-del { color: var(--accent-red); }
 
-        /* --- MOBILE RESPONSIVE TWEAKS --- */
+        /* RESPONSIVE */
         @media (max-width: 900px) {
-            /* 1. Layout Stack Vertical */
-            .adm-layout {
-                display: block; /* Hapus Grid */
-                overflow-y: auto; /* Scroll halaman */
-            }
-            #admin-panel { overflow-y: auto; } /* Scroll container utama */
-            
-            /* 2. Sidebar (Editor) */
-            .adm-sidebar {
-                width: 100%; height: auto; border-right: none; border-bottom: 1px solid #222;
-                max-height: none; /* Biarkan memanjang */
-            }
-            .adm-form-scroll { padding: 15px; }
-            .adm-actions { position: relative; bottom: 0; }
-
-            /* 3. Content (Database) */
-            .adm-content { width: 100%; height: auto; overflow: visible; padding-bottom: 50px; }
-            .db-header { flex-direction: column; gap: 10px; align-items: stretch; }
-            .db-search { width: 100%; }
-
-            /* 4. Database Table Mobile Transform */
-            .db-head { display: none; } /* Sembunyikan Header */
-            .db-row {
-                grid-template-columns: 1fr auto; /* Nama di kiri, Aksi di kanan */
-                grid-template-rows: auto auto; /* Baris 1: Judul, Baris 2: Details */
-                gap: 5px; padding: 15px;
-            }
-            /* Kolom 1 (#) Sembunyi */
-            .db-row div:nth-child(1) { display: none; }
-            /* Kolom 2 (Judul) Full Width di baris 1 */
-            .db-row div:nth-child(2) { grid-column: 1 / 2; font-size: 1rem; color: #fff; }
-            /* Kolom 3,4,5 (Game, Cat, Type) Gabung di baris 2 */
-            .db-row div:nth-child(3), .db-row div:nth-child(4), .db-row div:nth-child(5) {
-                display: inline-block; font-size: 0.75rem; color: #888; margin-right: 10px;
-            }
-            /* Kolom 6 (Aksi) di Kanan Atas */
-            .db-row div:nth-child(6) { grid-column: 2 / 3; grid-row: 1 / 3; align-self: center; justify-self: end; }
-            
-            .row-actions button { margin-left: 15px; font-size: 1.2rem; }
+            .adm-layout { display: block; overflow-y: auto; }
+            .adm-sidebar { height: auto; border-right: none; border-bottom: 1px solid #333; }
+            .adm-content { height: auto; min-height: 500px; }
         }
 
-        /* UTILS & AUTH */
         .page { display: none; animation: fadeIn 0.3s ease; }
         .page.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .auth-box { background: #0b101a; border: 1px solid #222; padding: 30px; border-radius: 15px; max-width: 400px; margin: 40px auto; }
         #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; }
         .toast { background: rgba(10,10,10,0.95); border: 1px solid var(--accent-gold); color: #fff; padding: 12px 25px; border-radius: 50px; margin-top: 10px; opacity: 0; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
         .toast.error { border-color: var(--accent-red); color: var(--accent-red); }
         .toast.show { opacity: 1; transform: translateY(0); }
-
     </style>
 </head>
 <body>
@@ -187,77 +110,49 @@
     <div id="admin-panel">
         <div class="adm-layout">
             <div class="adm-sidebar">
-                <div class="adm-header">
-                    <h2>NIGHTGEAR ADMIN</h2>
+                <h3 style="color:var(--accent-gold); margin-bottom:20px;">ADMIN COMMAND</h3>
+                
+                <input type="hidden" id="edit-id"> <input type="hidden" id="current-sheet" value="Mods">
+
+                <div style="display:flex; gap:10px; margin-bottom:20px;">
+                    <button class="btn-auth" onclick="setAdminMode('Mods')" id="tab-mods" style="background:var(--accent-blue); color:#fff">MODS</button>
+                    <button class="btn-auth" onclick="setAdminMode('Members')" id="tab-mems" style="background:#222; color:#888">MEMBERS</button>
                 </div>
-                <div class="adm-form-scroll">
-                    <input type="hidden" id="edit-id">
 
-                    <div class="form-section">
-                        <span class="form-legend">Informasi Dasar</span>
-                        <label class="adm-label">Nama Modul</label>
-                        <input type="text" id="adm-title" class="adm-input" placeholder="Contoh: Dark UI v1">
-                        
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            <div>
-                                <label class="adm-label">Target Game</label>
-                                <input type="text" id="adm-game" class="adm-input" placeholder="TibiaME">
-                            </div>
-                            <div>
-                                <label class="adm-label">Kategori</label>
-                                <input type="text" id="adm-cat" class="adm-input" placeholder="OTME">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-section">
-                        <span class="form-legend">Klasifikasi & Konten</span>
-                        <label class="adm-label">Tipe Akses</label>
-                        <select id="adm-type" class="adm-select">
-                            <option value="FREE">FREE (Publik)</option>
-                            <option value="PREMIUM">PREMIUM (Member)</option>
-                            <option value="ADMIN">ADMIN (Hazard)</option>
-                        </select>
-
-                        <label class="adm-label" style="margin-top:10px;">Deskripsi</label>
-                        <div class="toolbar">
-                            <button class="tool-btn" onclick="insertTag('[btn]', '[/btn]')">BTN</button>
-                            <button class="tool-btn" onclick="insertTag('[gold]', '[/gold]')">GOLD</button>
-                            <button class="tool-btn" onclick="insertTag('[red]', '[/red]')">RED</button>
-                            <button class="tool-btn" onclick="insertTag('[code]', '[/code]')">CODE</button>
-                        </div>
-                        <textarea id="adm-desc" class="adm-textarea" rows="4"></textarea>
-
-                        <label class="adm-label">Link Download</label>
-                        <input type="text" id="adm-link" class="adm-input" placeholder="URL...">
-                    </div>
+                <div id="form-mods">
+                    <input type="text" id="adm-game" class="adm-input" placeholder="Game Name">
+                    <input type="text" id="adm-cat" class="adm-input" placeholder="Category">
+                    <input type="text" id="adm-title" class="adm-input" placeholder="Title">
+                    <select id="adm-type" class="adm-input">
+                        <option value="FREE">FREE</option>
+                        <option value="PREMIUM">PREMIUM</option>
+                        <option value="ADMIN">ADMIN ONLY</option>
+                    </select>
+                    <textarea id="adm-desc" class="adm-input" rows="3" placeholder="Description... [btn] [gold]"></textarea>
+                    <input type="text" id="adm-link" class="adm-input" placeholder="Download Link">
                 </div>
-                <div class="adm-actions">
-                    <button class="btn-reset" onclick="resetForm()">BATAL</button>
-                    <button class="btn-save" id="btn-submit" onclick="saveMod()">SIMPAN DATA</button>
+
+                <div id="form-mems" style="display:none;">
+                    <input type="text" id="adm-user" class="adm-input" placeholder="Username">
+                    <input type="text" id="adm-pass" class="adm-input" placeholder="Password">
+                    <select id="adm-role" class="adm-input">
+                        <option value="member">Member</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button class="btn-auth btn-gold" id="btn-submit" onclick="submitData()">PUBLISH</button>
+                    <button class="btn-auth" style="background:#222; color:#fff" onclick="resetForm()">RESET</button>
                 </div>
             </div>
 
             <div class="adm-content">
-                <div class="db-header">
-                    <h3 style="color:#fff; font-size:1rem;">DATABASE MANAGEMENT</h3>
-                    <div style="display:flex; gap:10px; width:100%; justify-content:flex-end;">
-                        <input type="text" id="search-mod" class="db-search" placeholder="Cari Modul..." onkeyup="renderAdminList()">
-                        <button onclick="logout()" style="background:#220000; color:red; border:1px solid red; padding:5px 15px; border-radius:4px; cursor:pointer;">LOGOUT</button>
-                    </div>
+                <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #222; padding-bottom:15px;">
+                    <h3 style="color:#fff;">DATABASE</h3>
+                    <button onclick="logout()" style="background:#330000; color:red; border:1px solid red; padding:5px 15px; cursor:pointer; border-radius:4px;">EXIT</button>
                 </div>
-                <div class="db-list">
-                    <div class="db-row db-head">
-                        <div>#</div>
-                        <div>NAMA MOD</div>
-                        <div>GAME</div>
-                        <div>KAT</div>
-                        <div>TIPE</div>
-                        <div style="text-align:right">AKSI</div>
-                    </div>
-                    <div id="admin-list-container">
-                        </div>
-                </div>
+                <div id="db-list-container" class="db-list"></div>
             </div>
         </div>
     </div>
@@ -269,66 +164,249 @@
         </header>
 
         <div id="p-home" class="page active">
-            <h3 style="color:#666; font-size:0.8rem; margin-bottom:15px; letter-spacing:1px;">AVAILABLE GAMES</h3>
-            <div class="grid-menu" id="game-list"></div>
+            <h3 style="color:#666; font-size:0.8rem; margin-bottom:15px;">MAIN MENU</h3>
+            <div id="game-list" class="grid-menu"></div>
+            
+            <h3 style="color:#666; font-size:0.8rem; margin:20px 0 15px 0;">SERVICES</h3>
+            <div class="grid-menu">
+                <div class="card-menu card-service" onclick="nav('p-services')">
+                    <div class="card-icon"><i class="fa-solid fa-paintbrush"></i></div>
+                    <div><h3 style="color:#fff;">REQUEST SERVICE</h3><p style="color:#ccc; font-size:0.8rem">Design, Website, Script</p></div>
+                    <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#accent-gold"></i>
+                </div>
+            </div>
+        </div>
+
+        <div id="p-services" class="page">
+            <button onclick="nav('p-home')" style="background:none; border:none; color:#888; margin-bottom:15px; cursor:pointer;">< BACK</button>
+            <h2 style="color:var(--accent-gold); margin-bottom:20px;">ORDER JASA</h2>
+            <div class="grid-menu">
+                <div class="card-menu" onclick="waRequest('Jasa Desain UI/Logo')">
+                    <div class="card-icon"><i class="fa-solid fa-pen-nib"></i></div>
+                    <h3 style="color:#fff;">Desain UI / Logo</h3>
+                </div>
+                <div class="card-menu" onclick="waRequest('Pembuatan Website')">
+                    <div class="card-icon"><i class="fa-solid fa-code"></i></div>
+                    <h3 style="color:#fff;">Pembuatan Website</h3>
+                </div>
+                <div class="card-menu" onclick="waRequest('Scripting & Bot')">
+                    <div class="card-icon"><i class="fa-solid fa-robot"></i></div>
+                    <h3 style="color:#fff;">Script & Bot Game</h3>
+                </div>
+            </div>
         </div>
 
         <div id="p-cats" class="page">
-            <button class="btn-back" onclick="nav('p-home')" style="background:none; border:none; color:#888; cursor:pointer; margin-bottom:20px;"><i class="fa-solid fa-arrow-left"></i> BACK TO GAMES</button>
-            <h2 id="cat-title" style="color:var(--glow-blue); margin-bottom:20px; text-transform:uppercase;">GAME</h2>
-            <div class="grid-menu" id="cat-list"></div>
+            <button onclick="nav('p-home')" style="background:none; border:none; color:#888; margin-bottom:15px; cursor:pointer;">< BACK</button>
+            <h2 id="cat-title" style="color:var(--glow-blue); margin-bottom:20px;">GAME</h2>
+            <div id="cat-list" class="grid-menu"></div>
         </div>
 
         <div id="p-mods" class="page">
-            <button class="btn-back" onclick="nav('p-cats')" style="background:none; border:none; color:#888; cursor:pointer; margin-bottom:20px;"><i class="fa-solid fa-arrow-left"></i> BACK TO CATEGORY</button>
-            <h2 id="mod-title-header" style="color:var(--accent-gold); margin-bottom:20px; text-transform:uppercase;">MODS</h2>
+            <button onclick="nav('p-cats')" style="background:none; border:none; color:#888; margin-bottom:15px; cursor:pointer;">< BACK</button>
+            <h2 id="mod-header-title" style="color:var(--accent-gold); margin-bottom:20px;">MODS</h2>
             <div id="mods-container"></div>
         </div>
 
         <div id="p-login" class="page">
-            <button class="btn-back" onclick="nav('p-home')" style="background:none; border:none; color:#888; cursor:pointer; margin-bottom:20px;">Home</button>
+            <button onclick="nav('p-home')" style="background:none; border:none; color:#888; margin-bottom:15px; cursor:pointer;">< HOME</button>
             <div class="auth-box">
-                <h2 style="text-align:center; color:var(--accent-gold); margin-bottom:20px;">SYSTEM LOGIN</h2>
-                <input type="text" id="log-id" class="adm-input" placeholder="Identity" style="margin-bottom:10px;">
-                <input type="password" id="log-pass" class="adm-input" placeholder="Passcode" style="margin-bottom:20px;">
-                <button onclick="login()" style="width:100%; background:var(--accent-gold); color:#000; border:none; padding:12px; font-weight:bold; border-radius:5px; cursor:pointer;">ACCESS</button>
-                <p style="text-align:center; margin-top:20px; font-size:0.8rem; color:var(--accent-blue); cursor:pointer;" onclick="nav('p-register')">>> Request Premium Access</p>
+                <h2 style="text-align:center; color:var(--accent-gold); margin-bottom:20px;">LOGIN</h2>
+                <input type="text" id="log-id" class="adm-input" placeholder="Username">
+                <input type="password" id="log-pass" class="adm-input" placeholder="Password">
+                <button onclick="login()" class="btn-auth btn-gold">ACCESS</button>
+                
+                <div style="margin-top:20px; text-align:center; border-top:1px solid #333; padding-top:15px;">
+                    <button onclick="nav('p-register')" style="background:none; border:1px solid var(--accent-blue); color:var(--accent-blue); padding:8px 15px; border-radius:20px; cursor:pointer; font-size:0.8rem;">
+                        <i class="fa-solid fa-user-plus"></i> DAFTAR MEMBER BARU
+                    </button>
+                </div>
             </div>
         </div>
 
         <div id="p-register" class="page">
-            <button class="btn-back" onclick="nav('p-login')" style="background:none; border:none; color:#888; cursor:pointer; margin-bottom:20px;">Login</button>
+            <button onclick="nav('p-login')" style="background:none; border:none; color:#888; margin-bottom:15px; cursor:pointer;">< BACK LOGIN</button>
             <div class="auth-box">
-                <h2 style="text-align:center; color:var(--accent-blue); margin-bottom:10px;">NEW MEMBER</h2>
-                <p style="text-align:center; color:#666; font-size:0.8rem; margin-bottom:20px;">Fee: 5.000.000 Gold (OTME)</p>
-                <input type="text" id="reg-u" class="adm-input" placeholder="Username">
-                <button onclick="register()" style="width:100%; background:var(--accent-blue); color:#fff; border:none; padding:12px; font-weight:bold; border-radius:5px; cursor:pointer; margin-top:15px;">SUBMIT VIA WHATSAPP</button>
+                <h2 style="text-align:center; color:var(--accent-blue); margin-bottom:10px;">REGISTRASI</h2>
+                <div class="security-warn">
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>JANGAN gunakan Username/Password asli game Anda! Gunakan data unik khusus website ini.</div>
+                </div>
+                
+                <input type="text" id="reg-u" class="adm-input" placeholder="Username Baru">
+                <input type="password" id="reg-p1" class="adm-input" placeholder="Password">
+                <input type="password" id="reg-p2" class="adm-input" placeholder="Konfirmasi Password">
+                
+                <div style="background:#111; padding:10px; border-radius:6px; margin-bottom:15px;">
+                    <p style="color:#aaa; font-size:0.8rem; margin-bottom:5px;">Biaya Member: <strong>5.000.000 Gold</strong></p>
+                    <p style="color:#fff; font-family:monospace; font-size:0.9rem;">Via Command: <span style="color:lime">.tg nightgear</span></p>
+                </div>
+
+                <div class="file-upload" id="proof-upload" onclick="triggerUpload()">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> Upload Bukti Transaksi
+                </div>
+
+                <button onclick="registerAction()" class="btn-auth" style="background:var(--accent-blue); color:#fff">KIRIM VIA WHATSAPP</button>
             </div>
         </div>
+
     </div>
 
     <script>
-        // DATA
-        const initialData = [
-            { id: 1, game: 'TibiaME', cat: 'OTME', title: 'NightGear UI v4', type: 'FREE', desc: 'New [btn]Analog[/btn] Control with [blue]Blue Neon[/blue] theme.', link: '#' },
-            { id: 2, game: 'TibiaME', cat: 'Official', title: 'Playstore Client', type: 'FREE', desc: 'Original CipSoft Client.', link: 'https://play.google.com/store/apps/details?id=com.cipsoft.tibiame' },
-            { id: 3, game: 'TibiaME', cat: 'OTME', title: 'Gold VIP Edition', type: 'PREMIUM', desc: 'Exclusive [gold]Gold HUD[/gold] + Auto Login.', link: '#' },
-            { id: 4, game: 'Private', cat: 'Dev', title: 'SERVER CORE DUMP', type: 'ADMIN', desc: 'Database access credentials.', link: '#' }
-        ];
+        // --- KONFIGURASI ---
+        const API_URL = "https://script.google.com/macros/s/AKfycbwtyJUHJz1dhcwnokZ4mcUtR_VlQk6Qcz2B_Wv-A3lrnkLvjUvjvgwoxIu7ICD5mi9P/exec"; 
 
-        let mods = JSON.parse(localStorage.getItem('ng_mods_v51')) || initialData;
-        let user = JSON.parse(localStorage.getItem('ng_user_v51')) || { role: 'guest' };
+        // State
+        let mods = [];
+        let members = [];
+        let user = JSON.parse(localStorage.getItem('ng_user_v7')) || { role: 'guest' };
         let currentGame = null;
+        let adminMode = 'Mods'; // 'Mods' or 'Members'
 
-        // RENDER LOGIC
+        // --- INIT & FETCH ---
+        async function loadData() {
+            try {
+                // Fetch Mods
+                let res = await fetch(API_URL + "?action=getMods");
+                mods = await res.json();
+                renderGames(); 
+                
+                // Fetch Members
+                let res2 = await fetch(API_URL + "?action=getMembers");
+                members = await res2.json();
+
+                if(user.role === 'admin') renderAdminList();
+
+            } catch (e) { console.log("Offline/Error", e); }
+        }
+
+        // --- ADMIN ACTIONS (SMART CRUD) ---
+        async function submitData() {
+            showToast('Processing...', 'info');
+            
+            let payload = { sheet: adminMode, action: 'create' }; // Default create
+            let editId = document.getElementById('edit-id').value;
+            
+            if(editId) { 
+                payload.action = 'update'; 
+                payload.id = editId; // Kirim ID asli untuk dicari di sheet
+            }
+
+            if(adminMode === 'Mods') {
+                payload.game = document.getElementById('adm-game').value;
+                payload.cat = document.getElementById('adm-cat').value;
+                payload.title = document.getElementById('adm-title').value;
+                payload.type = document.getElementById('adm-type').value;
+                payload.desc = document.getElementById('adm-desc').value;
+                payload.link = document.getElementById('adm-link').value;
+            } else {
+                payload.username = document.getElementById('adm-user').value;
+                payload.password = document.getElementById('adm-pass').value;
+                payload.role = document.getElementById('adm-role').value;
+                // Members pake Username sebagai ID (untuk edit)
+                if(editId) payload.id = document.getElementById('adm-user').value; 
+            }
+
+            try {
+                await fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+                showToast(editId ? 'Data Updated!' : 'Data Created!', 'success');
+                resetForm();
+                setTimeout(loadData, 2000); // Reload data
+            } catch (e) { showToast('Error', 'error'); }
+        }
+
+        async function deleteItem(id) {
+            if(!confirm("Yakin hapus data ini selamanya?")) return;
+            showToast('Deleting...', 'info');
+            
+            let payload = { sheet: adminMode, action: 'delete', id: id };
+            await fetch(API_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload) });
+            
+            showToast('Deleted!', 'error');
+            setTimeout(loadData, 2000);
+        }
+
+        function editItem(id) {
+            document.getElementById('edit-id').value = id;
+            document.getElementById('btn-submit').innerText = "UPDATE DATA";
+            document.getElementById('btn-submit').style.background = "var(--accent-gold)";
+
+            if(adminMode === 'Mods') {
+                let m = mods.find(x => x.id == id);
+                document.getElementById('adm-game').value = m.game;
+                document.getElementById('adm-cat').value = m.cat;
+                document.getElementById('adm-title').value = m.title;
+                document.getElementById('adm-type').value = m.type;
+                document.getElementById('adm-desc').value = m.desc;
+                document.getElementById('adm-link').value = m.link;
+            } else {
+                // Member ID adalah Username
+                let m = members.find(x => x.username == id);
+                document.getElementById('adm-user').value = m.username;
+                document.getElementById('adm-pass').value = m.password;
+                document.getElementById('adm-role').value = m.role;
+                // Disable username edit agar tidak rusak referensi
+                document.getElementById('adm-user').disabled = true; 
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('edit-id').value = '';
+            document.querySelectorAll('.adm-input').forEach(i => { i.value = ''; i.disabled = false; });
+            document.getElementById('btn-submit').innerText = "PUBLISH";
+            document.getElementById('btn-submit').style.background = "var(--accent-blue)";
+        }
+
+        // --- RENDER ADMIN LIST ---
+        function setAdminMode(mode) {
+            adminMode = mode;
+            document.getElementById('tab-mods').style.background = mode==='Mods' ? 'var(--accent-blue)' : '#222';
+            document.getElementById('tab-mods').style.color = mode==='Mods' ? '#fff' : '#888';
+            document.getElementById('tab-mems').style.background = mode==='Members' ? 'var(--accent-blue)' : '#222';
+            document.getElementById('tab-mems').style.color = mode==='Members' ? '#fff' : '#888';
+            
+            document.getElementById('form-mods').style.display = mode==='Mods' ? 'block' : 'none';
+            document.getElementById('form-mems').style.display = mode==='Members' ? 'block' : 'none';
+            
+            renderAdminList();
+            resetForm();
+        }
+
+        function renderAdminList() {
+            const list = document.getElementById('db-list-container');
+            list.innerHTML = '';
+            
+            let data = adminMode === 'Mods' ? mods : members;
+            
+            data.forEach(item => {
+                let id = adminMode === 'Mods' ? item.id : item.username;
+                let title = adminMode === 'Mods' ? item.title : item.username;
+                let sub = adminMode === 'Mods' ? item.type : item.role;
+                
+                list.innerHTML += `
+                <div class="db-row">
+                    <div class="db-info">
+                        <strong>${title}</strong>
+                        <span>${sub}</span>
+                    </div>
+                    <div class="db-actions">
+                        <button class="act-edit" onclick="editItem('${id}')"><i class="fa-solid fa-pen"></i></button>
+                        <button class="act-del" onclick="deleteItem('${id}')"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        // --- USER UI LOGIC ---
         function renderGames() {
             const list = document.getElementById('game-list');
             list.innerHTML = '';
             const games = [...new Set(mods.map(m => m.game))];
             games.forEach(g => {
-                list.innerHTML += `<div class="card-menu" onclick="selectGame('${g}')">
+                list.innerHTML += `
+                <div class="card-menu" onclick="selectGame('${g}')">
                     <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
-                    <div><h3 style="color:#fff; text-transform:uppercase;">${g}</h3><p style="color:#666; font-size:0.8rem">Browse Mods</p></div>
+                    <div><h3 style="color:#fff;">${g}</h3></div>
                     <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#444"></i>
                 </div>`;
             });
@@ -342,9 +420,8 @@
             const gMods = mods.filter(m => m.game === g);
             const cats = [...new Set(gMods.map(m => m.cat))];
             cats.forEach(c => {
-                let icon = c.toLowerCase().includes('official') ? 'fa-google-play' : 'fa-folder';
                 list.innerHTML += `<div class="card-menu" onclick="selectCat('${c}')">
-                    <div class="card-icon"><i class="fa-solid ${icon}"></i></div><h3 style="color:#fff;">${c}</h3>
+                    <div class="card-icon"><i class="fa-solid fa-folder"></i></div><h3 style="color:#fff;">${c}</h3>
                     <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#444"></i>
                 </div>`;
             });
@@ -352,194 +429,101 @@
         }
 
         function selectCat(c) {
-            document.getElementById('mod-title-header').innerText = c;
+            document.getElementById('mod-header-title').innerText = c;
             const container = document.getElementById('mods-container');
             container.innerHTML = '';
             const items = mods.filter(m => m.game === currentGame && m.cat === c);
 
             items.forEach(m => {
-                const isAdminItem = m.type === 'ADMIN';
-                const isPremium = m.type === 'PREMIUM';
-                const isLocked = (isPremium && user.role === 'guest');
+                if(m.type === 'ADMIN' && user.role !== 'admin') return;
+                const isLocked = (m.type === 'PREMIUM' && user.role === 'guest');
                 
-                let cardClass = 'mod-card';
-                let contentHTML = '';
+                let content = '';
+                let desc = m.desc.replace(/\[btn\](.*?)\[\/btn\]/g, '<span class="ui-btn">$1</span>')
+                                 .replace(/\[gold\](.*?)\[\/gold\]/g, '<span class="txt-gold">$1</span>');
 
-                // PARSE DESCRIPTION TAGS
-                let desc = m.desc
-                    .replace(/\[btn\](.*?)\[\/btn\]/g, '<span class="ui-btn">$1</span>')
-                    .replace(/\[gold\](.*?)\[\/gold\]/g, '<span class="txt-gold">$1</span>')
-                    .replace(/\[red\](.*?)\[\/red\]/g, '<span class="txt-red">$1</span>')
-                    .replace(/\[blue\](.*?)\[\/blue\]/g, '<span style="color:var(--glow-blue); font-weight:bold">$1</span>');
-
-                if (isAdminItem) {
-                    cardClass += ' hazard';
-                    if (user.role !== 'admin') {
-                        contentHTML = `<div style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:not-allowed; z-index:10;" onclick="hazardTrigger()"></div>
-                                       <div class="mod-desc" style="color:#500; font-family:monospace;">[ENCRYPTED DATA] LEVEL 5 CLEARANCE REQUIRED.</div>`;
-                    } else {
-                        contentHTML = `<div class="mod-desc">${desc}</div><a href="${m.link}" class="btn-download" style="background:var(--accent-red); color:#fff;">SECURE DOWNLOAD</a>`;
-                    }
-                } 
-                else if (isLocked) {
-                    // --- LOCKED LOGIC (SHOW NAME, HIDE DESC) ---
-                    cardClass += ' locked';
-                    contentHTML = `
-                    <div class="lock-container">
-                        <i class="fa-solid fa-lock lock-icon"></i>
-                        <div class="lock-text">MEMBER ONLY CONTENT</div>
-                        <button class="btn-unlock" onclick="nav('p-login')">UNLOCK ACCESS</button>
-                    </div>`;
-                } 
-                else {
-                    // NORMAL
-                    contentHTML = `
-                    <div class="mod-desc">${desc}</div>
-                    <a href="${m.link}" class="btn-download">DOWNLOAD MOD</a>
-                    <div class="donation-box">
-                        <div style="font-size:0.8rem; color:#aaa; font-style:italic; margin-bottom:5px;">"Your support keeps the gears turning."</div>
-                        <span class="copy-cmd" onclick="copyTg()">.tg nightgear</span>
-                    </div>`;
+                if(isLocked) {
+                    content = `<div class="lock-container"><i class="fa-solid fa-lock"></i> MEMBER ONLY<br><span style="font-size:0.8rem; color:#666">Login to access</span></div>`;
+                } else {
+                    content = `<div class="mod-desc">${desc}</div><a href="${m.link}" class="btn-download">DOWNLOAD</a>`;
                 }
 
-                let badgeClass = m.type==='FREE'?'b-free':(m.type==='PREMIUM'?'b-prem':'b-admin');
-
                 container.innerHTML += `
-                <div class="${cardClass}">
-                    <div class="mod-header">
+                <div class="mod-card ${isLocked?'locked':''}">
+                    <div style="display:flex; justify-content:space-between;">
                         <div class="mod-title">${m.title}</div>
-                        <span class="badge ${badgeClass}">${m.type}</span>
+                        <span class="badge ${m.type==='FREE'?'b-free':'b-prem'}">${m.type}</span>
                     </div>
-                    ${contentHTML}
+                    ${content}
                 </div>`;
             });
             nav('p-mods');
         }
 
-        function hazardTrigger() {
-            if(navigator.vibrate) navigator.vibrate([100]);
-            showToast('ACCESS DENIED!', 'error');
-        }
-
-        // --- ADMIN SYSTEM ---
+        // --- AUTH SYSTEM ---
         function login() {
             const u = document.getElementById('log-id').value;
             const p = document.getElementById('log-pass').value;
-            if(u === 'Zikra' && p === 'LightGear76') {
-                user = { role: 'admin', name: 'Zikra' }; saveUser(); openAdmin();
-            } else if(u === 'member' && p === 'member') {
-                user = { role: 'member', name: 'Demo' }; saveUser(); nav('p-home'); showToast('Welcome Member!', 'success');
-            } else { showToast('Access Denied', 'error'); }
-        }
+            
+            // Cek di array members (yang sudah di-fetch dari sheet)
+            const found = members.find(m => m.username == u && m.password == p);
 
-        function register() {
-            const u = document.getElementById('reg-u').value;
-            if(!u) return showToast('Isi Username!', 'error');
-            window.open(`https://wa.me/6283101456267?text=Reg Member: ${u}`, '_blank');
-        }
-
-        function openAdmin() { document.getElementById('admin-panel').style.display = 'block'; document.getElementById('main-view').style.display = 'none'; renderAdminList(); }
-        
-        function renderAdminList() {
-            const c = document.getElementById('admin-list-container');
-            const term = document.getElementById('search-mod').value.toLowerCase();
-            c.innerHTML = '';
-            mods.forEach((m) => {
-                if(!m.title.toLowerCase().includes(term)) return;
-                let dot = m.type==='FREE'?'s-free':(m.type==='PREMIUM'?'s-prem':'s-adm');
-                c.innerHTML += `
-                <div class="db-row">
-                    <div class="status-dot ${dot}"></div>
-                    <div style="color:#fff; font-weight:bold;">${m.title}</div>
-                    <div style="color:#888;">${m.game}</div>
-                    <div style="color:#888;">${m.cat}</div>
-                    <div style="color:#ccc;">${m.type}</div>
-                    <div class="row-actions">
-                        <button class="act-edit" onclick="editMod(${m.id})"><i class="fa-solid fa-pen"></i></button>
-                        <button class="act-del" onclick="delMod(${m.id})"><i class="fa-solid fa-trash"></i></button>
-                    </div>
-                </div>`;
-            });
-        }
-
-        function saveMod() {
-            const id = document.getElementById('edit-id').value;
-            const game = document.getElementById('adm-game').value;
-            const cat = document.getElementById('adm-cat').value;
-            const title = document.getElementById('adm-title').value;
-            const type = document.getElementById('adm-type').value;
-            const desc = document.getElementById('adm-desc').value;
-            const link = document.getElementById('adm-link').value;
-
-            if(!game || !title) return showToast('Data Incomplete', 'error');
-
-            if (id) {
-                const index = mods.findIndex(m => m.id == id);
-                mods[index] = { id: parseInt(id), game, cat, title, type, desc, link };
+            if(found) {
+                user = { role: found.role, name: found.username };
+                saveUser();
+                if(found.role === 'admin') openAdmin();
+                else { nav('p-home'); showToast('Login Success', 'success'); }
             } else {
-                mods.push({ id: Date.now(), game, cat, title, type, desc, link });
-            }
-            localStorage.setItem('ng_mods_v51', JSON.stringify(mods));
-            resetForm(); renderAdminList(); showToast('Data Saved');
-        }
-
-        function editMod(id) {
-            const m = mods.find(m => m.id == id);
-            document.getElementById('edit-id').value = m.id;
-            document.getElementById('adm-game').value = m.game;
-            document.getElementById('adm-cat').value = m.cat;
-            document.getElementById('adm-title').value = m.title;
-            document.getElementById('adm-type').value = m.type;
-            document.getElementById('adm-desc').value = m.desc;
-            document.getElementById('adm-link').value = m.link;
-            document.getElementById('btn-submit').innerText = "UPDATE";
-            document.getElementById('btn-submit').style.background = "var(--accent-gold)";
-        }
-
-        function delMod(id) {
-            if(confirm('Delete?')) {
-                mods = mods.filter(m => m.id !== id);
-                localStorage.setItem('ng_mods_v51', JSON.stringify(mods));
-                renderAdminList();
+                showToast('Akun tidak ditemukan', 'error');
             }
         }
 
-        function resetForm() {
-            document.getElementById('edit-id').value = '';
-            document.getElementById('adm-game').value = '';
-            document.getElementById('adm-title').value = '';
-            document.getElementById('adm-desc').value = '';
-            document.getElementById('adm-link').value = '';
-            document.getElementById('btn-submit').innerText = "PUBLISH";
-            document.getElementById('btn-submit').style.background = "var(--accent-blue)";
+        // --- REGISTER SYSTEM ---
+        let proofUploaded = false;
+        function triggerUpload() {
+            document.getElementById('proof-upload').classList.add('selected');
+            document.getElementById('proof-upload').innerHTML = '<i class="fa-solid fa-check"></i> Gambar Dipilih (Simulasi)';
+            proofUploaded = true;
         }
 
-        function insertTag(s, e) {
-            const el = document.getElementById('adm-desc');
-            el.value += s + 'text' + e;
+        function registerAction() {
+            const u = document.getElementById('reg-u').value;
+            const p1 = document.getElementById('reg-p1').value;
+            const p2 = document.getElementById('reg-p2').value;
+
+            if(!u || !p1) return showToast('Lengkapi Data!', 'error');
+            if(p1 !== p2) return showToast('Password tidak sama!', 'error');
+            if(!proofUploaded) return showToast('Upload bukti transfer dulu!', 'error');
+
+            const text = `Halo Admin, saya ingin registrasi member.%0A%0AUsername: ${u}%0APassword: ${p1}%0A%0ABukti transfer 5M Gold terlampir.`;
+            window.open(`https://wa.me/6283101456267?text=${text}`, '_blank');
         }
 
-        // UTILS
+        function waRequest(service) {
+            window.open(`https://wa.me/6283101456267?text=Halo Admin, saya tertarik dengan layanan: ${service}`, '_blank');
+        }
+
+        // --- UTILS ---
+        function openAdmin() { document.getElementById('admin-panel').style.display = 'block'; document.getElementById('main-view').style.display = 'none'; setAdminMode('Mods'); }
         function logout() { user = { role: 'guest' }; saveUser(); location.reload(); }
-        function saveUser() { localStorage.setItem('ng_user_v51', JSON.stringify(user)); updateUserUI(); }
+        function saveUser() { localStorage.setItem('ng_user_v7', JSON.stringify(user)); updateUserUI(); }
         function updateUserUI() {
-            const p = document.getElementById('header-user');
-            if(user.role === 'guest') p.innerHTML = `<span class="login-btn" onclick="nav('p-login')"><i class="fa-solid fa-user"></i> LOGIN</span>`;
-            else p.innerHTML = `<span class="user-badge" onclick="logout()"><i class="fa-solid fa-crown"></i> ${user.name}</span>`;
+            const h = document.getElementById('header-user');
+            if(user.role === 'guest') h.innerHTML = `<span class="login-btn" onclick="nav('p-login')">LOGIN</span>`;
+            else h.innerHTML = `<span class="user-badge" onclick="logout()">${user.name}</span>`;
         }
         function nav(id) {
             window.scrollTo(0,0); document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
         }
-        function showToast(m, t) {
-            const d = document.createElement('div'); d.className = `toast show ${t==='error'?'error':''}`;
-            d.innerHTML = `<i class="fa-solid ${t==='error'?'fa-triangle-exclamation':'fa-check-circle'}"></i> ${m}`;
-            document.getElementById('toast-container').appendChild(d); setTimeout(()=>d.remove(), 3000);
+        function showToast(m,t) {
+            const d = document.createElement('div'); d.className=`toast show ${t==='error'?'error':''}`; d.innerHTML=m;
+            document.getElementById('toast-container').appendChild(d); setTimeout(()=>d.remove(),3000);
         }
-        function copyTg() { navigator.clipboard.writeText('.tg nightgear'); showToast('Command Copied!'); }
 
-        updateUserUI(); renderGames();
-        if(user.role === 'admin') openAdmin();
+        // START
+        updateUserUI();
+        loadData();
 
     </script>
 </body>
