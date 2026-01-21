@@ -1,329 +1,546 @@
-</html>
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roihan Febrilian - Portfolio</title>
+    <title>NightGear Workshop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Rajdhani:wght@500;700&family=Lato:wght@400;700;900&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;700;800&display=swap" rel="stylesheet">
-
     <style>
-        /* --- 1. SETTING VISUAL --- */
+        /* --- CORE THEME --- */
         :root {
-            --bg: #ffffff;
-            --primary: #006994;    /* Biru Laut */
-            --dark: #00334e;       /* Biru Gelap */
-            --accent: #e0f2fe;     /* Biru Muda */
-            --line: #cbd5e1;       
-            --text: #1e293b;
+            --bg-dark: #050505; --accent-blue: #0077ff; --glow-blue: #00ccff;
+            --accent-gold: #e6b800; --accent-red: #ff3333; --text-main: #f0f0f0; --border: #1f293a;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            background: var(--bg); color: var(--text);
-            overflow-x: hidden;
+        body {
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at 50% 0%, #0d121c 0%, #000 70%);
+            color: var(--text-main); font-family: 'Lato', sans-serif; min-height: 100vh; padding-bottom: 60px;
         }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; display: flex; flex-direction: column; min-height: 100vh; }
+        
+        /* HEADER */
+        header { display: flex; justify-content: space-between; align-items: center; margin: 20px 0 30px 0; border-bottom: 1px solid #222; padding-bottom: 20px; }
+        .logo h1 { 
+            background: linear-gradient(to right, #fff, var(--glow-blue)); -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent; font-family: 'Cinzel', serif; font-size: 1.6rem; cursor: pointer;
+        }
+        .user-badge { font-family: 'Rajdhani', sans-serif; font-weight: bold; border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 5px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+        .login-btn { font-family: 'Rajdhani', sans-serif; border: 1px solid #444; color: #aaa; padding: 5px 12px; border-radius: 4px; font-size: 0.8rem; cursor: pointer; }
+        
+        /* --- MOD CARDS --- */
+        .mod-card {
+            background: #0d121c; border: 1px solid var(--border); border-radius: 12px;
+            padding: 20px; margin-bottom: 20px; position: relative; overflow: hidden; transition: 0.3s;
+        }
+        .mod-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .mod-title { font-size: 1.1rem; color: #fff; font-weight: 900; font-family: 'Rajdhani', sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
+        
+        .badge { font-size: 0.6rem; padding: 3px 6px; border-radius: 3px; font-weight: bold; letter-spacing: 1px; }
+        .b-free { background: rgba(0, 119, 255, 0.1); color: var(--glow-blue); border: 1px solid var(--accent-blue); }
+        .b-prem { background: rgba(230, 184, 0, 0.1); color: var(--accent-gold); border: 1px solid var(--accent-gold); }
+        .b-admin { background: #330000; color: var(--accent-red); border: 1px solid var(--accent-red); }
 
-        /* --- 2. BACKGROUND SYNCHRONIZED SHAPES --- */
-        .bg-layer {
+        .mod-desc { font-size: 0.9rem; color: #ccc; line-height: 1.6; }
+        .ui-btn { display: inline-block; background: #222; border: 1px solid #555; color: #fff; padding: 0px 6px; border-radius: 4px; font-size: 0.75rem; font-family: monospace; box-shadow: 0 2px 0 #000; margin: 0 2px; }
+        .txt-gold { color: var(--accent-gold); font-weight: bold; }
+        .txt-red { color: var(--accent-red); font-weight: bold; }
+        .txt-code { background: #000; color: #0f0; font-family: monospace; padding: 2px 5px; border-radius: 3px; border: 1px solid #333; }
+
+        /* LOCKED STATE */
+        .mod-card.locked { background: #080a0f; border-color: #222; opacity: 1; }
+        .mod-card.locked .mod-desc, .mod-card.locked .btn-download, .mod-card.locked .donation-box { display: none !important; }
+        .lock-container { border: 1px dashed var(--accent-gold); background: rgba(230, 184, 0, 0.05); padding: 20px; text-align: center; border-radius: 8px; margin-top: 10px; }
+        .lock-icon { font-size: 1.5rem; color: var(--accent-gold); margin-bottom: 10px; }
+        .lock-text { color: #888; font-size: 0.8rem; margin-bottom: 10px; }
+        .btn-unlock { background: #111; color: var(--accent-gold); border: 1px solid var(--accent-gold); padding: 5px 15px; cursor: pointer; font-size: 0.8rem; font-weight: bold; }
+
+        /* HAZARD STYLE */
+        .mod-card.hazard { background: repeating-linear-gradient(45deg, #1a0505, #1a0505 10px, #2b0000 10px, #2b0000 20px); border: 1px solid var(--accent-red); }
+        .mod-card.hazard .mod-title { color: var(--accent-red); text-shadow: 0 0 5px red; }
+        
+        .btn-download {
+            background: var(--text-main); color: #000; display: block; width: 100%;
+            padding: 12px; text-align: center; border-radius: 6px; text-decoration: none;
+            font-weight: 800; font-family: 'Rajdhani', sans-serif; margin-top: 15px; letter-spacing: 1px; transition: 0.2s;
+        }
+        .btn-download:hover { background: var(--glow-blue); box-shadow: 0 0 15px var(--glow-blue); }
+        .donation-box { margin-top: 15px; background: rgba(197, 160, 89, 0.05); border: 1px dashed var(--accent-gold); padding: 12px; border-radius: 8px; text-align: center; }
+        .copy-cmd { background: #000; color: #4ade80; font-family: monospace; padding: 8px; border-radius: 4px; cursor: pointer; display: block; border: 1px solid #333; margin-top: 5px; }
+
+        .grid-menu { display: grid; gap: 12px; }
+        .card-menu {
+            background: rgba(15, 20, 30, 0.8); border: 1px solid var(--border);
+            padding: 18px; border-radius: 10px; display: flex; align-items: center; gap: 15px;
+            cursor: pointer; transition: 0.2s;
+        }
+        .card-menu:hover { border-color: var(--glow-blue); background: rgba(0, 119, 255, 0.08); transform: translateX(5px); }
+
+        /* --- ADMIN PANEL CSS (DESKTOP DEFAULT) --- */
+        #admin-panel {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; pointer-events: none; overflow: hidden;
+            background: #080808; z-index: 9999; display: none;
+            overflow: hidden; font-family: 'Lato', sans-serif;
         }
-        .outline-shape {
-            position: absolute; border: 2px solid var(--line); opacity: 0.4;
-            transition: transform 0.1s linear;
-        }
-        #shape1 { width: 60vh; height: 60vh; border-radius: 50%; top: -10%; right: -20%; border-style: dashed; }
-        #shape2 { width: 40vh; height: 40vh; bottom: 10%; left: -10%; border-radius: 40px; }
-        #shape3 { width: 20vh; height: 20vh; border-radius: 50%; top: 40%; left: 40%; border-color: var(--primary); opacity: 0.1; }
-
-        /* --- 3. SCROLL SNAP SYSTEM --- */
-        main { height: 100vh; overflow-y: scroll; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
-        section {
-            height: 100vh; width: 100%;
-            scroll-snap-align: start; scroll-snap-stop: always;
-            padding: 30px; position: relative;
-            display: flex; flex-direction: column; justify-content: center;
-        }
-
-        /* --- 4. ANIMASI --- */
-        .fade-up { opacity: 0; transform: translateY(30px); transition: 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        section.active .fade-up { opacity: 1; transform: translateY(0); }
-        .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; }
-
-        /* --- 5. COMPONENT STYLES (MOBILE FIRST) --- */
+        .adm-layout { display: grid; grid-template-columns: 380px 1fr; height: 100%; }
         
-        /* HERO SECTION */
-        .hero-section { display: block; padding-top: 80px; }
-        .hero-text-wrap { position: relative; z-index: 2; max-width: 85%; }
-        .hero-title { font-size: 3.2rem; font-weight: 800; line-height: 0.9; color: var(--dark); margin-bottom: 15px; }
-        .hero-subtitle { font-size: 1.2rem; color: var(--primary); font-weight: 700; margin-bottom: 15px; }
-        .hero-desc { max-width: 250px; font-size: 0.9rem; color: #666; line-height: 1.5; }
-
-        .hero-img-container {
-            position: absolute; bottom: 0; right: -20px; 
-            width: 80%; height: 65vh; z-index: 1;
-            display: flex; align-items: flex-end; justify-content: flex-end;
-            pointer-events: none;
+        .adm-sidebar { background: #0c0c0c; border-right: 1px solid #222; display: flex; flex-direction: column; height: 100vh; }
+        .adm-header { padding: 20px; border-bottom: 1px solid #222; text-align: center; background: #050505; }
+        .adm-header h2 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 1.2rem; }
+        .adm-form-scroll { padding: 20px; overflow-y: auto; flex: 1; }
+        .form-section { margin-bottom: 25px; border: 1px solid #222; padding: 15px; border-radius: 8px; background: #111; }
+        .form-legend { font-size: 0.7rem; color: #666; font-weight: bold; text-transform: uppercase; margin-bottom: 10px; display: block; letter-spacing: 1px; }
+        
+        .adm-label { display: block; font-size: 0.75rem; color: #888; margin-bottom: 5px; font-weight: bold; }
+        .adm-input, .adm-select, .adm-textarea {
+            width: 100%; background: #000; border: 1px solid #333; color: #eee; padding: 10px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; margin-bottom: 10px;
         }
-        .hero-img-container img {
-            height: 100%; width: auto; object-fit: contain;
-            filter: drop-shadow(-10px 0 20px rgba(0,0,0,0.15));
-            transform: translateY(50px); opacity: 0; transition: 1s ease-out;
+        .adm-input:focus, .adm-textarea:focus { border-color: var(--accent-blue); outline: none; }
+        .toolbar { display: flex; gap: 5px; margin-bottom: 5px; flex-wrap: wrap; }
+        .tool-btn { background: #222; color: #ccc; border: 1px solid #333; padding: 4px 8px; border-radius: 3px; cursor: pointer; font-size: 0.7rem; }
+        .adm-actions { padding: 20px; border-top: 1px solid #222; background: #050505; display: flex; gap: 10px; }
+        .btn-save { flex: 2; background: var(--accent-gold); color: #000; border: none; padding: 12px; font-weight: bold; cursor: pointer; border-radius: 4px; }
+        .btn-reset { flex: 1; background: #222; color: #fff; border: 1px solid #333; cursor: pointer; border-radius: 4px; }
+
+        .adm-content { background: #080808; display: flex; flex-direction: column; height: 100vh; }
+        .db-header { padding: 20px; border-bottom: 1px solid #222; display: flex; justify-content: space-between; align-items: center; background: #050505; }
+        .db-search { background: #111; border: 1px solid #333; color: #fff; padding: 8px 15px; border-radius: 4px; width: 300px; }
+        .db-list { flex: 1; overflow-y: auto; padding: 20px; }
+        
+        /* DATABASE ROW (Desktop) */
+        .db-row { 
+            display: grid; grid-template-columns: 30px 2fr 1fr 1fr 1fr 100px; 
+            align-items: center; background: #111; border: 1px solid #222; 
+            padding: 10px; margin-bottom: 8px; border-radius: 4px; font-size: 0.85rem; transition: 0.2s;
         }
-        section.active .hero-img-container img { transform: translateY(0); opacity: 1; }
+        .db-row:hover { border-color: #444; background: #161616; }
+        .db-head { font-weight: bold; color: #666; background: transparent; border: none; margin-bottom: 10px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .s-free { background: var(--accent-blue); }
+        .s-prem { background: var(--accent-gold); }
+        .s-adm { background: var(--accent-red); }
+        .row-actions button { background: none; border: none; cursor: pointer; font-size: 0.9rem; margin-left: 10px; }
+        .act-edit { color: var(--accent-blue); }
+        .act-del { color: var(--accent-red); }
 
-        /* EXPERIENCE */
-        .exp-grid { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; }
-        .exp-card { background: white; padding: 12px 15px; border-radius: 12px; border-left: 5px solid var(--primary); box-shadow: 0 5px 20px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .exp-info h4 { margin: 0; font-size: 0.95rem; color: var(--dark); }
-        .exp-info p { margin: 0; font-size: 0.8rem; color: #666; }
-        .exp-year { font-size: 0.7rem; font-weight: 700; color: var(--primary); background: var(--accent); padding: 4px 8px; border-radius: 50px; white-space: nowrap; margin-left: 10px; }
-
-        /* SKILLS */
-        .skill-cat { font-size: 0.8rem; font-weight: 700; color: var(--primary); display: block; margin-bottom: 8px; margin-top: 15px; }
-        .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
-        .pill { padding: 6px 14px; border: 1px solid var(--dark); border-radius: 50px; font-size: 0.8rem; font-weight: 600; }
-        .pill.filled { background: var(--dark); color: white; }
-
-        /* PROJECT */
-        .browser-mockup { border: 2px solid #eee; border-radius: 10px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.1); margin-top: 20px; }
-        .browser-header { background: #f8f9fa; padding: 10px; display: flex; gap: 5px; border-bottom: 1px solid #eee; }
-        .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
-        .browser-mockup img { width: 100%; height: 250px; object-fit: cover; display: block; }
-
-        /* GALLERY */
-        .gallery-wrap { display: flex; overflow-x: scroll; gap: 15px; padding: 10px 0; scroll-snap-type: x mandatory; }
-        .photo-card { flex: 0 0 260px; height: 320px; border-radius: 20px; overflow: hidden; scroll-snap-align: center; position: relative; }
-        .photo-card img { width: 100%; height: 100%; object-fit: cover; }
-        .photo-overlay { position: absolute; bottom: 0; left: 0; width: 100%; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; padding: 20px; }
-
-        /* CONTACT */
-        .contact-container { width: 100%; text-align: center; }
-        .contact-actions { display: flex; flex-direction: column; gap: 15px; margin-top: 30px; width: 100%; }
-        .btn-action { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 18px; border-radius: 12px; font-weight: 700; text-decoration: none; transition: transform 0.2s; }
-        .btn-action:active { transform: scale(0.95); }
-        .btn-wa { background: #25D366; color: white; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3); }
-        .btn-email { background: var(--dark); color: white; box-shadow: 0 10px 20px rgba(0, 51, 78, 0.3); }
-
-        /* --- 6. DESKTOP OPTIMIZATION (MEDIA QUERY) --- */
-        /* Ini kode supaya tampilan di Laptop/PC enak dilihat */
-        @media (min-width: 1024px) {
+        /* --- MOBILE RESPONSIVE TWEAKS --- */
+        @media (max-width: 900px) {
+            /* 1. Layout Stack Vertical */
+            .adm-layout {
+                display: block; /* Hapus Grid */
+                overflow-y: auto; /* Scroll halaman */
+            }
+            #admin-panel { overflow-y: auto; } /* Scroll container utama */
             
-            /* Atur ulang padding biar konten ada di tengah rapi */
-            section {
-                padding: 0 15%; /* Kanan kiri lega */
-                align-items: center; /* Konten di tengah */
+            /* 2. Sidebar (Editor) */
+            .adm-sidebar {
+                width: 100%; height: auto; border-right: none; border-bottom: 1px solid #222;
+                max-height: none; /* Biarkan memanjang */
             }
+            .adm-form-scroll { padding: 15px; }
+            .adm-actions { position: relative; bottom: 0; }
 
-            /* HERO SECTION DESKTOP */
-            .hero-section {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding: 0 10%;
+            /* 3. Content (Database) */
+            .adm-content { width: 100%; height: auto; overflow: visible; padding-bottom: 50px; }
+            .db-header { flex-direction: column; gap: 10px; align-items: stretch; }
+            .db-search { width: 100%; }
+
+            /* 4. Database Table Mobile Transform */
+            .db-head { display: none; } /* Sembunyikan Header */
+            .db-row {
+                grid-template-columns: 1fr auto; /* Nama di kiri, Aksi di kanan */
+                grid-template-rows: auto auto; /* Baris 1: Judul, Baris 2: Details */
+                gap: 5px; padding: 15px;
             }
-            .hero-text-wrap {
-                max-width: 45%;
-                margin-top: -50px; /* Biar agak naik dikit sejajar mata */
+            /* Kolom 1 (#) Sembunyi */
+            .db-row div:nth-child(1) { display: none; }
+            /* Kolom 2 (Judul) Full Width di baris 1 */
+            .db-row div:nth-child(2) { grid-column: 1 / 2; font-size: 1rem; color: #fff; }
+            /* Kolom 3,4,5 (Game, Cat, Type) Gabung di baris 2 */
+            .db-row div:nth-child(3), .db-row div:nth-child(4), .db-row div:nth-child(5) {
+                display: inline-block; font-size: 0.75rem; color: #888; margin-right: 10px;
             }
-            .hero-title { font-size: 5rem; } /* Font judul digedein buat PC */
-            .hero-subtitle { font-size: 1.5rem; }
-            .hero-desc { max-width: 400px; font-size: 1.1rem; }
+            /* Kolom 6 (Aksi) di Kanan Atas */
+            .db-row div:nth-child(6) { grid-column: 2 / 3; grid-row: 1 / 3; align-self: center; justify-self: end; }
             
-            .hero-img-container {
-                width: 50%;
-                height: 90vh; /* Gambar lebih tinggi */
-                right: 50px;
-                align-items: flex-end;
-            }
-
-            /* EXPERIENCE DESKTOP (2 Kolom) */
-            .exp-grid {
-                grid-template-columns: 1fr 1fr; /* Jadi 2 kolom */
-                gap: 20px;
-                width: 100%;
-                max-width: 900px; /* Batasi lebar biar gak melar */
-            }
-
-            /* SKILLS DESKTOP */
-            .skill-list {
-                justify-content: center; /* Skill rata tengah */
-                max-width: 800px;
-            }
-
-            /* PROJECT DESKTOP */
-            .browser-mockup {
-                max-width: 700px; /* Batasi lebar browser */
-                margin-left: auto; margin-right: auto;
-            }
-            .browser-mockup img { height: 400px; }
-
-            /* CONTACT DESKTOP (Tombol Sebelahan) */
-            .contact-container { max-width: 600px; }
-            .contact-actions {
-                flex-direction: row; /* Tombol jadi berjejer ke samping */
-                justify-content: center;
-            }
-            .btn-action { width: 100%; } /* Penuhi ruang flex */
+            .row-actions button { margin-left: 15px; font-size: 1.2rem; }
         }
+
+        /* UTILS & AUTH */
+        .page { display: none; animation: fadeIn 0.3s ease; }
+        .page.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .auth-box { background: #0b101a; border: 1px solid #222; padding: 30px; border-radius: 15px; max-width: 400px; margin: 40px auto; }
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 10000; }
+        .toast { background: rgba(10,10,10,0.95); border: 1px solid var(--accent-gold); color: #fff; padding: 12px 25px; border-radius: 50px; margin-top: 10px; opacity: 0; transition: 0.3s; display: flex; align-items: center; gap: 10px; }
+        .toast.error { border-color: var(--accent-red); color: var(--accent-red); }
+        .toast.show { opacity: 1; transform: translateY(0); }
 
     </style>
 </head>
 <body>
 
-    <div class="bg-layer">
-        <div class="outline-shape" id="shape1"></div>
-        <div class="outline-shape" id="shape2"></div>
-        <div class="outline-shape" id="shape3"></div>
+    <div id="toast-container"></div>
+
+    <div id="admin-panel">
+        <div class="adm-layout">
+            <div class="adm-sidebar">
+                <div class="adm-header">
+                    <h2>NIGHTGEAR ADMIN</h2>
+                </div>
+                <div class="adm-form-scroll">
+                    <input type="hidden" id="edit-id">
+
+                    <div class="form-section">
+                        <span class="form-legend">Informasi Dasar</span>
+                        <label class="adm-label">Nama Modul</label>
+                        <input type="text" id="adm-title" class="adm-input" placeholder="Contoh: Dark UI v1">
+                        
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <label class="adm-label">Target Game</label>
+                                <input type="text" id="adm-game" class="adm-input" placeholder="TibiaME">
+                            </div>
+                            <div>
+                                <label class="adm-label">Kategori</label>
+                                <input type="text" id="adm-cat" class="adm-input" placeholder="OTME">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <span class="form-legend">Klasifikasi & Konten</span>
+                        <label class="adm-label">Tipe Akses</label>
+                        <select id="adm-type" class="adm-select">
+                            <option value="FREE">FREE (Publik)</option>
+                            <option value="PREMIUM">PREMIUM (Member)</option>
+                            <option value="ADMIN">ADMIN (Hazard)</option>
+                        </select>
+
+                        <label class="adm-label" style="margin-top:10px;">Deskripsi</label>
+                        <div class="toolbar">
+                            <button class="tool-btn" onclick="insertTag('[btn]', '[/btn]')">BTN</button>
+                            <button class="tool-btn" onclick="insertTag('[gold]', '[/gold]')">GOLD</button>
+                            <button class="tool-btn" onclick="insertTag('[red]', '[/red]')">RED</button>
+                            <button class="tool-btn" onclick="insertTag('[code]', '[/code]')">CODE</button>
+                        </div>
+                        <textarea id="adm-desc" class="adm-textarea" rows="4"></textarea>
+
+                        <label class="adm-label">Link Download</label>
+                        <input type="text" id="adm-link" class="adm-input" placeholder="URL...">
+                    </div>
+                </div>
+                <div class="adm-actions">
+                    <button class="btn-reset" onclick="resetForm()">BATAL</button>
+                    <button class="btn-save" id="btn-submit" onclick="saveMod()">SIMPAN DATA</button>
+                </div>
+            </div>
+
+            <div class="adm-content">
+                <div class="db-header">
+                    <h3 style="color:#fff; font-size:1rem;">DATABASE MANAGEMENT</h3>
+                    <div style="display:flex; gap:10px; width:100%; justify-content:flex-end;">
+                        <input type="text" id="search-mod" class="db-search" placeholder="Cari Modul..." onkeyup="renderAdminList()">
+                        <button onclick="logout()" style="background:#220000; color:red; border:1px solid red; padding:5px 15px; border-radius:4px; cursor:pointer;">LOGOUT</button>
+                    </div>
+                </div>
+                <div class="db-list">
+                    <div class="db-row db-head">
+                        <div>#</div>
+                        <div>NAMA MOD</div>
+                        <div>GAME</div>
+                        <div>KAT</div>
+                        <div>TIPE</div>
+                        <div style="text-align:right">AKSI</div>
+                    </div>
+                    <div id="admin-list-container">
+                        </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <main>
+    <div class="container" id="main-view">
+        <header>
+            <div class="logo"><h1>NIGHTGEAR</h1></div>
+            <div id="header-user"></div>
+        </header>
 
-        <section class="hero-section">
-            <div class="hero-text-wrap">
-                <h2 class="fade-up d1" style="font-size:0.9rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:2px; margin-bottom:10px;">Portfolio</h2>
-                <h1 class="hero-title fade-up d2">Roihan<br>Febrilian.</h1>
-                <div class="hero-subtitle fade-up d3">Industrial Operator &<br>Web Developer</div>
-                <p class="hero-desc fade-up d3">Menggabungkan ketelitian mesin industri dengan logika kode digital.</p>
-            </div>
-            <div class="hero-img-container">
-                <img src="https://i.imgur.com/BWxhsLS.png" alt="Roihan Full Body">
-            </div>
-        </section>
+        <div id="p-home" class="page active">
+            <h3 style="color:#666; font-size:0.8rem; margin-bottom:15px; letter-spacing:1px;">AVAILABLE GAMES</h3>
+            <div class="grid-menu" id="game-list"></div>
+        </div>
 
-        <section>
-            <h2 style="color:var(--primary); font-weight:700;">TRACK RECORD</h2>
-            <h1 style="font-size: 2rem; color:var(--dark);">Experience.</h1>
-            <div class="exp-grid fade-up d1">
-                <div class="exp-card">
-                    <div class="exp-info"><h4>Store Crew</h4><p>Yomart</p></div>
-                    <div class="exp-year">Okt 24 - Des 24</div>
-                </div>
-                <div class="exp-card">
-                    <div class="exp-info"><h4>Op. Painting</h4><p>PT. Craze Indo</p></div>
-                    <div class="exp-year">Mar 24 - Ags 24</div>
-                </div>
-                <div class="exp-card">
-                    <div class="exp-info"><h4>Op. Produksi</h4><p>PT. Epson</p></div>
-                    <div class="exp-year">Okt 21 - Okt 23</div>
-                </div>
-                 <div class="exp-card">
-                    <div class="exp-info"><h4>Helper Teknisi</h4><p>CV. Multi Eng.</p></div>
-                    <div class="exp-year">Ags 21 - Okt 21</div>
-                </div>
-            </div>
-        </section>
+        <div id="p-cats" class="page">
+            <button class="btn-back" onclick="nav('p-home')" style="background:none; border:none; color:#888; cursor:pointer; margin-bottom:20px;"><i class="fa-solid fa-arrow-left"></i> BACK TO GAMES</button>
+            <h2 id="cat-title" style="color:var(--glow-blue); margin-bottom:20px; text-transform:uppercase;">GAME</h2>
+            <div class="grid-menu" id="cat-list"></div>
+        </div>
 
-        <section>
-            <h2 style="color:var(--primary); font-weight:700;">ARSENAL</h2>
-            <h1 style="font-size: 2rem; color:var(--dark);">Skills.</h1>
-            <div class="fade-up d1" style="width: 100%; display:flex; flex-direction:column; align-items:center;">
-                <span class="skill-cat">HARD SKILLS (INDUSTRIAL)</span>
-                <div class="skill-list">
-                    <div class="pill">Centerless Grinding</div>
-                    <div class="pill">CNC Operation</div>
-                    <div class="pill">Stamping Press</div>
-                    <div class="pill">Painting</div>
-                </div>
-            </div>
-            <div class="fade-up d2" style="width: 100%; display:flex; flex-direction:column; align-items:center;">
-                <span class="skill-cat">SOFT & DIGITAL SKILLS</span>
-                <div class="skill-list">
-                    <div class="pill filled">Web Developing</div>
-                    <div class="pill filled">Admin Excel</div>
-                    <div class="pill filled">Adobe PS</div>
-                    <div class="pill filled">Adobe AE</div>
-                    <div class="pill filled">Ms. Excel</div>
-                    <div class="pill filled">Ms. Word</div>
-                    <div class="pill filled">PowerPoint</div>
-                    <div class="pill filled">Public Speaking</div>
-                    <div class="pill filled">Basic English</div>
-                </div>
-            </div>
-        </section>
+        <div id="p-mods" class="page">
+            <button class="btn-back" onclick="nav('p-cats')" style="background:none; border:none; color:#888; cursor:pointer; margin-bottom:20px;"><i class="fa-solid fa-arrow-left"></i> BACK TO CATEGORY</button>
+            <h2 id="mod-title-header" style="color:var(--accent-gold); margin-bottom:20px; text-transform:uppercase;">MODS</h2>
+            <div id="mods-container"></div>
+        </div>
 
-        <section>
-            <h2 style="color:var(--primary); font-weight:700;">WEB DEVELOPMENT</h2>
-            <h1 style="font-size: 2.2rem; color:var(--dark); line-height:1;">Gearshop<br>System.</h1>
-            <p style="margin-top:10px;">Virtual Economy Marketplace dengan fitur Lelang Real-time.</p>
-            <div class="browser-mockup fade-up d2">
-                <div class="browser-header">
-                    <div class="dot" style="background:#ff5f56"></div>
-                    <div class="dot" style="background:#ffbd2e"></div>
-                    <div class="dot" style="background:#27c93f"></div>
-                </div>
-                <img src="https://images.unsplash.com/photo-1614726365723-49cfae92782f?q=80&w=600" alt="Gearshop App">
+        <div id="p-login" class="page">
+            <button class="btn-back" onclick="nav('p-home')" style="background:none; border:none; color:#888; cursor:pointer; margin-bottom:20px;">Home</button>
+            <div class="auth-box">
+                <h2 style="text-align:center; color:var(--accent-gold); margin-bottom:20px;">SYSTEM LOGIN</h2>
+                <input type="text" id="log-id" class="adm-input" placeholder="Identity" style="margin-bottom:10px;">
+                <input type="password" id="log-pass" class="adm-input" placeholder="Passcode" style="margin-bottom:20px;">
+                <button onclick="login()" style="width:100%; background:var(--accent-gold); color:#000; border:none; padding:12px; font-weight:bold; border-radius:5px; cursor:pointer;">ACCESS</button>
+                <p style="text-align:center; margin-top:20px; font-size:0.8rem; color:var(--accent-blue); cursor:pointer;" onclick="nav('p-register')">>> Request Premium Access</p>
             </div>
-        </section>
+        </div>
 
-        <section>
-            <h2 style="color:var(--primary); font-weight:700;">SIDE PASSION</h2>
-            <h1 style="font-size: 2.2rem; color:var(--dark);">Street<br>Gallery.</h1>
-            <p>Menangkap momen candid di jalanan.</p>
-            <div class="gallery-wrap fade-up d2">
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1478131143081-80f7f84ca84d?q=80&w=400" alt="Street 1">
-                    <div class="photo-overlay"><span>Urban Life</span></div>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1542382903-51924619d880?q=80&w=400" alt="Street 2">
-                    <div class="photo-overlay"><span>Moment</span></div>
-                </div>
-                <div class="photo-card">
-                    <img src="https://images.unsplash.com/photo-1495539506691-2364c6778f67?q=80&w=400" alt="Street 3">
-                    <div class="photo-overlay"><span>Perspective</span></div>
-                </div>
+        <div id="p-register" class="page">
+            <button class="btn-back" onclick="nav('p-login')" style="background:none; border:none; color:#888; cursor:pointer; margin-bottom:20px;">Login</button>
+            <div class="auth-box">
+                <h2 style="text-align:center; color:var(--accent-blue); margin-bottom:10px;">NEW MEMBER</h2>
+                <p style="text-align:center; color:#666; font-size:0.8rem; margin-bottom:20px;">Fee: 5.000.000 Gold (OTME)</p>
+                <input type="text" id="reg-u" class="adm-input" placeholder="Username">
+                <button onclick="register()" style="width:100%; background:var(--accent-blue); color:#fff; border:none; padding:12px; font-weight:bold; border-radius:5px; cursor:pointer; margin-top:15px;">SUBMIT VIA WHATSAPP</button>
             </div>
-        </section>
-
-        <section>
-            <div class="contact-container">
-                <h1 style="font-size: 3rem; color:var(--dark); margin-bottom: 10px;">Let's<br>Work.</h1>
-                <p>Siap berkontribusi dengan disiplin tinggi.</p>
-                <div class="contact-actions fade-up d2">
-                    <a href="https://wa.me/6283101456267" class="btn-action btn-wa">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
-                        Hubungi via WhatsApp
-                    </a>
-                    <a href="mailto:roihanfebrilian303@gmail.com" class="btn-action btn-email">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
-                        Kirim Email
-                    </a>
-                </div>
-            </div>
-        </section>
-
-    </main>
+        </div>
+    </div>
 
     <script>
-        const shape1 = document.getElementById('shape1');
-        const shape2 = document.getElementById('shape2');
-        const shape3 = document.getElementById('shape3');
+        // DATA
+        const initialData = [
+            { id: 1, game: 'TibiaME', cat: 'OTME', title: 'NightGear UI v4', type: 'FREE', desc: 'New [btn]Analog[/btn] Control with [blue]Blue Neon[/blue] theme.', link: '#' },
+            { id: 2, game: 'TibiaME', cat: 'Official', title: 'Playstore Client', type: 'FREE', desc: 'Original CipSoft Client.', link: 'https://play.google.com/store/apps/details?id=com.cipsoft.tibiame' },
+            { id: 3, game: 'TibiaME', cat: 'OTME', title: 'Gold VIP Edition', type: 'PREMIUM', desc: 'Exclusive [gold]Gold HUD[/gold] + Auto Login.', link: '#' },
+            { id: 4, game: 'Private', cat: 'Dev', title: 'SERVER CORE DUMP', type: 'ADMIN', desc: 'Database access credentials.', link: '#' }
+        ];
 
-        window.addEventListener('scroll', () => {
-            const scrollPos = window.scrollY;
-            if(shape1) shape1.style.transform = `rotate(${scrollPos * 0.1}deg)`;
-            if(shape2) shape2.style.transform = `rotate(-${scrollPos * 0.2}deg) translateY(${scrollPos * 0.05}px)`;
-            if(shape3) shape3.style.transform = `scale(${1 + scrollPos * 0.0005})`;
-        });
+        let mods = JSON.parse(localStorage.getItem('ng_mods_v51')) || initialData;
+        let user = JSON.parse(localStorage.getItem('ng_user_v51')) || { role: 'guest' };
+        let currentGame = null;
 
-        const sections = document.querySelectorAll('section');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                } else {
-                    entry.target.classList.remove('active');
-                }
+        // RENDER LOGIC
+        function renderGames() {
+            const list = document.getElementById('game-list');
+            list.innerHTML = '';
+            const games = [...new Set(mods.map(m => m.game))];
+            games.forEach(g => {
+                list.innerHTML += `<div class="card-menu" onclick="selectGame('${g}')">
+                    <div class="card-icon"><i class="fa-solid fa-gamepad"></i></div>
+                    <div><h3 style="color:#fff; text-transform:uppercase;">${g}</h3><p style="color:#666; font-size:0.8rem">Browse Mods</p></div>
+                    <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#444"></i>
+                </div>`;
             });
-        }, { threshold: 0.5 });
-        sections.forEach(s => observer.observe(s));
+        }
+
+        function selectGame(g) {
+            currentGame = g;
+            document.getElementById('cat-title').innerText = g;
+            const list = document.getElementById('cat-list');
+            list.innerHTML = '';
+            const gMods = mods.filter(m => m.game === g);
+            const cats = [...new Set(gMods.map(m => m.cat))];
+            cats.forEach(c => {
+                let icon = c.toLowerCase().includes('official') ? 'fa-google-play' : 'fa-folder';
+                list.innerHTML += `<div class="card-menu" onclick="selectCat('${c}')">
+                    <div class="card-icon"><i class="fa-solid ${icon}"></i></div><h3 style="color:#fff;">${c}</h3>
+                    <i class="fa-solid fa-chevron-right" style="margin-left:auto; color:#444"></i>
+                </div>`;
+            });
+            nav('p-cats');
+        }
+
+        function selectCat(c) {
+            document.getElementById('mod-title-header').innerText = c;
+            const container = document.getElementById('mods-container');
+            container.innerHTML = '';
+            const items = mods.filter(m => m.game === currentGame && m.cat === c);
+
+            items.forEach(m => {
+                const isAdminItem = m.type === 'ADMIN';
+                const isPremium = m.type === 'PREMIUM';
+                const isLocked = (isPremium && user.role === 'guest');
+                
+                let cardClass = 'mod-card';
+                let contentHTML = '';
+
+                // PARSE DESCRIPTION TAGS
+                let desc = m.desc
+                    .replace(/\[btn\](.*?)\[\/btn\]/g, '<span class="ui-btn">$1</span>')
+                    .replace(/\[gold\](.*?)\[\/gold\]/g, '<span class="txt-gold">$1</span>')
+                    .replace(/\[red\](.*?)\[\/red\]/g, '<span class="txt-red">$1</span>')
+                    .replace(/\[blue\](.*?)\[\/blue\]/g, '<span style="color:var(--glow-blue); font-weight:bold">$1</span>');
+
+                if (isAdminItem) {
+                    cardClass += ' hazard';
+                    if (user.role !== 'admin') {
+                        contentHTML = `<div style="position:absolute; top:0; left:0; width:100%; height:100%; cursor:not-allowed; z-index:10;" onclick="hazardTrigger()"></div>
+                                       <div class="mod-desc" style="color:#500; font-family:monospace;">[ENCRYPTED DATA] LEVEL 5 CLEARANCE REQUIRED.</div>`;
+                    } else {
+                        contentHTML = `<div class="mod-desc">${desc}</div><a href="${m.link}" class="btn-download" style="background:var(--accent-red); color:#fff;">SECURE DOWNLOAD</a>`;
+                    }
+                } 
+                else if (isLocked) {
+                    // --- LOCKED LOGIC (SHOW NAME, HIDE DESC) ---
+                    cardClass += ' locked';
+                    contentHTML = `
+                    <div class="lock-container">
+                        <i class="fa-solid fa-lock lock-icon"></i>
+                        <div class="lock-text">MEMBER ONLY CONTENT</div>
+                        <button class="btn-unlock" onclick="nav('p-login')">UNLOCK ACCESS</button>
+                    </div>`;
+                } 
+                else {
+                    // NORMAL
+                    contentHTML = `
+                    <div class="mod-desc">${desc}</div>
+                    <a href="${m.link}" class="btn-download">DOWNLOAD MOD</a>
+                    <div class="donation-box">
+                        <div style="font-size:0.8rem; color:#aaa; font-style:italic; margin-bottom:5px;">"Your support keeps the gears turning."</div>
+                        <span class="copy-cmd" onclick="copyTg()">.tg nightgear</span>
+                    </div>`;
+                }
+
+                let badgeClass = m.type==='FREE'?'b-free':(m.type==='PREMIUM'?'b-prem':'b-admin');
+
+                container.innerHTML += `
+                <div class="${cardClass}">
+                    <div class="mod-header">
+                        <div class="mod-title">${m.title}</div>
+                        <span class="badge ${badgeClass}">${m.type}</span>
+                    </div>
+                    ${contentHTML}
+                </div>`;
+            });
+            nav('p-mods');
+        }
+
+        function hazardTrigger() {
+            if(navigator.vibrate) navigator.vibrate([100]);
+            showToast('ACCESS DENIED!', 'error');
+        }
+
+        // --- ADMIN SYSTEM ---
+        function login() {
+            const u = document.getElementById('log-id').value;
+            const p = document.getElementById('log-pass').value;
+            if(u === 'Zikra' && p === 'LightGear76') {
+                user = { role: 'admin', name: 'Zikra' }; saveUser(); openAdmin();
+            } else if(u === 'member' && p === 'member') {
+                user = { role: 'member', name: 'Demo' }; saveUser(); nav('p-home'); showToast('Welcome Member!', 'success');
+            } else { showToast('Access Denied', 'error'); }
+        }
+
+        function register() {
+            const u = document.getElementById('reg-u').value;
+            if(!u) return showToast('Isi Username!', 'error');
+            window.open(`https://wa.me/6283101456267?text=Reg Member: ${u}`, '_blank');
+        }
+
+        function openAdmin() { document.getElementById('admin-panel').style.display = 'block'; document.getElementById('main-view').style.display = 'none'; renderAdminList(); }
+        
+        function renderAdminList() {
+            const c = document.getElementById('admin-list-container');
+            const term = document.getElementById('search-mod').value.toLowerCase();
+            c.innerHTML = '';
+            mods.forEach((m) => {
+                if(!m.title.toLowerCase().includes(term)) return;
+                let dot = m.type==='FREE'?'s-free':(m.type==='PREMIUM'?'s-prem':'s-adm');
+                c.innerHTML += `
+                <div class="db-row">
+                    <div class="status-dot ${dot}"></div>
+                    <div style="color:#fff; font-weight:bold;">${m.title}</div>
+                    <div style="color:#888;">${m.game}</div>
+                    <div style="color:#888;">${m.cat}</div>
+                    <div style="color:#ccc;">${m.type}</div>
+                    <div class="row-actions">
+                        <button class="act-edit" onclick="editMod(${m.id})"><i class="fa-solid fa-pen"></i></button>
+                        <button class="act-del" onclick="delMod(${m.id})"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                </div>`;
+            });
+        }
+
+        function saveMod() {
+            const id = document.getElementById('edit-id').value;
+            const game = document.getElementById('adm-game').value;
+            const cat = document.getElementById('adm-cat').value;
+            const title = document.getElementById('adm-title').value;
+            const type = document.getElementById('adm-type').value;
+            const desc = document.getElementById('adm-desc').value;
+            const link = document.getElementById('adm-link').value;
+
+            if(!game || !title) return showToast('Data Incomplete', 'error');
+
+            if (id) {
+                const index = mods.findIndex(m => m.id == id);
+                mods[index] = { id: parseInt(id), game, cat, title, type, desc, link };
+            } else {
+                mods.push({ id: Date.now(), game, cat, title, type, desc, link });
+            }
+            localStorage.setItem('ng_mods_v51', JSON.stringify(mods));
+            resetForm(); renderAdminList(); showToast('Data Saved');
+        }
+
+        function editMod(id) {
+            const m = mods.find(m => m.id == id);
+            document.getElementById('edit-id').value = m.id;
+            document.getElementById('adm-game').value = m.game;
+            document.getElementById('adm-cat').value = m.cat;
+            document.getElementById('adm-title').value = m.title;
+            document.getElementById('adm-type').value = m.type;
+            document.getElementById('adm-desc').value = m.desc;
+            document.getElementById('adm-link').value = m.link;
+            document.getElementById('btn-submit').innerText = "UPDATE";
+            document.getElementById('btn-submit').style.background = "var(--accent-gold)";
+        }
+
+        function delMod(id) {
+            if(confirm('Delete?')) {
+                mods = mods.filter(m => m.id !== id);
+                localStorage.setItem('ng_mods_v51', JSON.stringify(mods));
+                renderAdminList();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById('edit-id').value = '';
+            document.getElementById('adm-game').value = '';
+            document.getElementById('adm-title').value = '';
+            document.getElementById('adm-desc').value = '';
+            document.getElementById('adm-link').value = '';
+            document.getElementById('btn-submit').innerText = "PUBLISH";
+            document.getElementById('btn-submit').style.background = "var(--accent-blue)";
+        }
+
+        function insertTag(s, e) {
+            const el = document.getElementById('adm-desc');
+            el.value += s + 'text' + e;
+        }
+
+        // UTILS
+        function logout() { user = { role: 'guest' }; saveUser(); location.reload(); }
+        function saveUser() { localStorage.setItem('ng_user_v51', JSON.stringify(user)); updateUserUI(); }
+        function updateUserUI() {
+            const p = document.getElementById('header-user');
+            if(user.role === 'guest') p.innerHTML = `<span class="login-btn" onclick="nav('p-login')"><i class="fa-solid fa-user"></i> LOGIN</span>`;
+            else p.innerHTML = `<span class="user-badge" onclick="logout()"><i class="fa-solid fa-crown"></i> ${user.name}</span>`;
+        }
+        function nav(id) {
+            window.scrollTo(0,0); document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+        function showToast(m, t) {
+            const d = document.createElement('div'); d.className = `toast show ${t==='error'?'error':''}`;
+            d.innerHTML = `<i class="fa-solid ${t==='error'?'fa-triangle-exclamation':'fa-check-circle'}"></i> ${m}`;
+            document.getElementById('toast-container').appendChild(d); setTimeout(()=>d.remove(), 3000);
+        }
+        function copyTg() { navigator.clipboard.writeText('.tg nightgear'); showToast('Command Copied!'); }
+
+        updateUserUI(); renderGames();
+        if(user.role === 'admin') openAdmin();
+
     </script>
 </body>
 </html>
