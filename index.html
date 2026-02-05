@@ -300,69 +300,89 @@
     </div>
 
     <script>
-        // --- 1. STATE & DATA MOCK (Siap dihubungkan API) ---
-        let state = {
-            currentUser: { role: 'guest', username: null },
-            theme: 'dark',
-            currentView: 'home',
-            data: {
-                categories: [
-                    { id: 'switch', name: 'Switch', icon: 'fa-microchip', color: '#ff0050' },
-                    { id: 'ps', name: 'Playstation', icon: 'fa-compact-disc', color: '#0066ff' },
-                    { id: 'win', name: 'Windows', icon: 'fa-desktop', color: '#00ff88' }
-                ],
-                subcategories: [
-                    { id: 'sw-emu', parent: 'switch', name: 'Emulator' },
-                    { id: 'sw-rom', parent: 'switch', name: 'ROMs' },
-                    { id: 'ps-emu', parent: 'ps', name: 'AetherSX2' }
-                ],
-                files: [
-                    { id: 'f1', sub: 'sw-emu', name: 'Sudachi v1.0.2', type: 'free', code: '1234', status: 'stable' },
-                    { id: 'f2', sub: 'sw-emu', name: 'Yuzu Early Access', type: 'member', status: 'experimental' }
-                ]
+    // --- 1. STATE (Sekarang data files kosong, akan diisi dari Google Sheets) ---
+    let state = {
+        currentUser: { role: 'guest', username: null },
+        theme: 'dark',
+        currentView: 'home',
+        data: {
+            categories: [
+                { id: 'switch', name: 'Switch', icon: 'fa-microchip', color: '#ff0050' },
+                { id: 'ps', name: 'Playstation', icon: 'fa-compact-disc', color: '#0066ff' },
+                { id: 'win', name: 'Windows', icon: 'fa-desktop', color: '#00ff88' }
+            ],
+            subcategories: [
+                { id: 'sw-emu', parent: 'switch', name: 'Emulator' },
+                { id: 'sw-rom', parent: 'switch', name: 'ROMs' },
+                { id: 'ps-emu', parent: 'ps', name: 'AetherSX2' }
+            ],
+            files: [] // Akan diisi otomatis dari Sheets
+        }
+    };
+
+    // --- FUNGSI BARU: AMBIL DATA DARI GOOGLE SHEETS ---
+    async function syncDatabase() {
+        try {
+            const response = await fetch('/api/data');
+            const result = await response.json();
+            
+            if (response.ok) {
+                state.data.files = result;
+                console.log("Database Sync Success:", result);
+                renderHome(); // Gambar ulang tampilan setelah data masuk
+            } else {
+                showToast("Gagal sinkron database");
             }
-        };
-
-        // --- 2. CORE ENGINE ---
-        function showView(viewName) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById('view-' + viewName).classList.add('active');
-            state.currentView = viewName;
-
-            // Nav Highlight
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            if(['home', 'subcat', 'filelist', 'detail'].includes(viewName)) document.querySelectorAll('.nav-item')[0].classList.add('active');
-            if(viewName === 'tested') document.querySelectorAll('.nav-item')[1].classList.add('active');
-            if(['account', 'admin'].includes(viewName)) document.querySelectorAll('.nav-item')[2].classList.add('active');
-
-            if(viewName === 'home') renderHome();
-            if(viewName === 'account') renderAccount();
+        } catch (err) {
+            console.error("Error sync:", err);
+            showToast("Koneksi API bermasalah");
         }
+    }
 
-        function renderHome() {
-            const grid = document.getElementById('category-grid');
-            grid.innerHTML = state.data.categories.map(cat => `
-                <div class="card cat-item" onclick="openCategory('${cat.id}')">
-                    <i class="fas ${cat.icon}" style="color: ${cat.color}"></i>
-                    <h3>${cat.name}</h3>
-                </div>
-            `).join('');
-        }
+    // --- 2. CORE ENGINE ---
+    function showView(viewName) {
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById('view-' + viewName).classList.add('active');
+        state.currentView = viewName;
 
-        function openCategory(id) {
-            const subGrid = document.getElementById('subcategory-grid');
-            const subs = state.data.subcategories.filter(s => s.parent === id);
-            subGrid.innerHTML = subs.map(s => `
-                <div class="card" onclick="openFileList('${s.id}')">
-                    <h4>${s.name}</h4>
-                </div>
-            `).join('');
-            showView('subcat');
-        }
+        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+        if(['home', 'subcat', 'filelist', 'detail'].includes(viewName)) document.querySelectorAll('.nav-item')[0].classList.add('active');
+        if(viewName === 'tested') document.querySelectorAll('.nav-item')[1].classList.add('active');
+        if(['account', 'admin'].includes(viewName)) document.querySelectorAll('.nav-item')[2].classList.add('active');
 
-        function openFileList(subId) {
-            const container = document.getElementById('file-items-container');
-            const files = state.data.files.filter(f => f.sub === subId);
+        if(viewName === 'home') renderHome();
+        if(viewName === 'account') renderAccount();
+    }
+
+    function renderHome() {
+        const grid = document.getElementById('category-grid');
+        grid.innerHTML = state.data.categories.map(cat => `
+            <div class="card cat-item" onclick="openCategory('${cat.id}')">
+                <i class="fas ${cat.icon}" style="color: ${cat.color}"></i>
+                <h3>${cat.name}</h3>
+            </div>
+        `).join('');
+    }
+
+    function openCategory(id) {
+        const subGrid = document.getElementById('subcategory-grid');
+        const subs = state.data.subcategories.filter(s => s.parent === id);
+        subGrid.innerHTML = subs.map(s => `
+            <div class="card" onclick="openFileList('${s.id}')">
+                <h4>${s.name}</h4>
+            </div>
+        `).join('');
+        showView('subcat');
+    }
+
+    function openFileList(subId) {
+        const container = document.getElementById('file-items-container');
+        // Filter berdasarkan kolom 'subcategory' dari Sheet
+        const files = state.data.files.filter(f => f.subcategory === subId);
+        
+        if (files.length === 0) {
+            container.innerHTML = `<p style="text-align:center; padding:20px;">Belum ada file di kategori ini.</p>`;
+        } else {
             container.innerHTML = files.map(f => `
                 <div class="card" style="display:flex; justify-content:space-between; align-items:center;" onclick="openDetail('${f.id}')">
                     <div>
@@ -372,166 +392,141 @@
                     <i class="fas fa-chevron-right"></i>
                 </div>
             `).join('');
-            document.getElementById('btn-back-filelist').onclick = () => showView('subcat');
-            showView('filelist');
         }
+        document.getElementById('btn-back-filelist').onclick = () => showView('subcat');
+        showView('filelist');
+    }
 
-        function openDetail(fileId) {
-            const file = state.data.files.find(f => f.id === fileId);
-            const header = document.getElementById('detail-header');
-            header.innerHTML = `
-                <h2>${file.name}</h2>
-                <div style="margin-top:10px;">
-                    <span class="badge badge-guest">${file.status}</span>
-                    ${state.currentUser.role === 'admin' ? '<button class="badge badge-admin" style="border:none">EDIT FILE</button>' : ''}
-                </div>
-            `;
-            
-            // Logic Tab info as default
-            switchDetailTab('info', file);
-            document.getElementById('btn-back-detail').onclick = () => showView('filelist');
-            showView('detail');
-        }
+    function openDetail(fileId) {
+        const file = state.data.files.find(f => f.id === fileId);
+        if(!file) return;
 
-        function switchDetailTab(tab, file) {
-            const content = document.getElementById('detail-tab-content');
-            if(tab === 'download') {
-                if(state.currentUser.role === 'guest') {
-                    content.innerHTML = `<div class="card" style="text-align:center">
-                        <i class="fas fa-lock" style="font-size:2rem; margin-bottom:10px;"></i>
-                        <p>Silakan Login untuk download atau masukkan kode jika file Free.</p>
-                        <input type="text" placeholder="Masukkan kode..." id="dl-code" style="margin: 15px 0;">
-                        <button class="btn btn-primary" onclick="checkCode()">Download</button>
-                    </div>`;
-                } else {
-                    content.innerHTML = `<button class="btn btn-primary"><i class="fas fa-download"></i> Direct Download</button>`;
-                }
-            } else if(tab === 'info') {
-                content.innerHTML = `<div class="card">
-                    <p style="color:var(--text-sub)">Platform: Android</p>
-                    <p style="color:var(--text-sub)">Version: Stable 1.0</p>
+        const header = document.getElementById('detail-header');
+        header.innerHTML = `
+            <h2>${file.name}</h2>
+            <div style="margin-top:10px;">
+                <span class="badge badge-guest">${file.status}</span>
+                ${state.currentUser.role === 'admin' ? '<button class="badge badge-admin" style="border:none">EDIT FILE</button>' : ''}
+            </div>
+        `;
+        
+        switchDetailTab('info', file);
+        document.getElementById('btn-back-detail').onclick = () => showView('filelist');
+        showView('detail');
+    }
+
+    function switchDetailTab(tab, file) {
+        const content = document.getElementById('detail-tab-content');
+        if(tab === 'download') {
+            if(state.currentUser.role === 'guest' && file.type !== 'free') {
+                content.innerHTML = `<div class="card" style="text-align:center">
+                    <i class="fas fa-lock" style="font-size:2rem; margin-bottom:10px;"></i>
+                    <p>File ini khusus Member. Silakan Login.</p>
                 </div>`;
             } else {
-                content.innerHTML = `<p>Sistem Diskusi...</p>`;
+                content.innerHTML = `
+                <div class="card" style="text-align:center">
+                    <p>Download Code: <b>${file.code || 'None'}</b></p>
+                    <a href="${file.download_url}" target="_blank" class="btn btn-primary" style="text-decoration:none; display:inline-block; margin-top:10px;">
+                        <i class="fas fa-download"></i> Download Sekarang
+                    </a>
+                </div>`;
+            }
+        } else if(tab === 'info') {
+            content.innerHTML = `<div class="card">
+                <p style="color:var(--text-sub)"><b>Description:</b></p>
+                <p>${file.description || 'Tidak ada deskripsi.'}</p>
+                <p style="margin-top:10px; color:var(--text-sub)">Status: ${file.status}</p>
+            </div>`;
+        } else {
+            content.innerHTML = `<p>Sistem Diskusi segera hadir...</p>`;
+        }
+    }
+
+    // --- 3. AUTH & ROLES ---
+    function renderAccount() {
+        const guestSect = document.getElementById('account-guest');
+        const profSect = document.getElementById('account-profile');
+        const regSect = document.getElementById('account-register');
+        
+        regSect.style.display = 'none';
+        if (state.currentUser.role === 'guest') {
+            guestSect.style.display = 'block';
+            profSect.style.display = 'none';
+        } else {
+            guestSect.style.display = 'none';
+            profSect.style.display = 'block';
+            document.getElementById('prof-name').innerText = state.currentUser.username;
+            document.getElementById('prof-role').innerText = state.currentUser.role;
+            document.getElementById('prof-role').className = 'badge badge-' + state.currentUser.role;
+            
+            if (state.currentUser.role === 'admin') {
+                document.getElementById('admin-entrance').style.display = 'block';
             }
         }
+    }
 
-        // --- 3. AUTH & ROLES ---
-function renderAccount() {
-    const guestSect = document.getElementById('account-guest');
-    const profSect = document.getElementById('account-profile');
-    const regSect = document.getElementById('account-register');
-    
-    regSect.style.display = 'none';
-    if (state.currentUser.role === 'guest') {
-        guestSect.style.display = 'block';
-        profSect.style.display = 'none';
-    } else {
-        guestSect.style.display = 'none';
-        profSect.style.display = 'block';
-        document.getElementById('prof-name').innerText = state.currentUser.username;
-        document.getElementById('prof-role').innerText = state.currentUser.role;
-        document.getElementById('prof-role').className = 'badge badge-' + state.currentUser.role;
+    function handleLogin() {
+        const user = document.getElementById('login-user').value;
+        const pass = document.getElementById('login-pass').value;
         
-        if (state.currentUser.role === 'admin') {
-            document.getElementById('admin-entrance').style.display = 'block';
+        if (user === 'admin' && pass === 'admin') {
+            state.currentUser = { role: 'admin', username: 'Administrator' };
+        } else if (user === 'member' && pass === 'member') {
+            state.currentUser = { role: 'member', username: 'GamerX' };
+        } else {
+            showToast('Login gagal!');
+            return;
+        }
+        
+        document.getElementById('current-role-badge').innerText = state.currentUser.role;
+        document.getElementById('current-role-badge').className = 'badge badge-' + state.currentUser.role;
+        showToast('Selamat datang ' + state.currentUser.username);
+        showView('home');
+    }
+
+    function handleLogout() {
+        state.currentUser = { role: 'guest', username: null };
+        document.getElementById('current-role-badge').innerText = 'guest';
+        document.getElementById('current-role-badge').className = 'badge badge-guest';
+        showView('home');
+    }
+
+    function showRegister() {
+        document.getElementById('account-guest').style.display = 'none';
+        document.getElementById('account-register').style.display = 'block';
+    }
+
+    function submitRegister() {
+        showToast("Permintaan terkirim. Silakan konfirmasi di WhatsApp.");
+        showView('home');
+    }
+
+    // --- 5. HELPERS ---
+    function toggleTheme() {
+        const body = document.body;
+        if (state.theme === 'dark') {
+            body.classList.add('amoled');
+            state.theme = 'amoled';
+        } else {
+            body.classList.remove('amoled');
+            state.theme = 'dark';
         }
     }
-}
 
-function handleLogin() {
-    const user = document.getElementById('login-user').value;
-    const pass = document.getElementById('login-pass').value;
-    
-    // Simple Logic for demo
-    if (user === 'admin' && pass === 'admin') {
-        state.currentUser = { role: 'admin', username: 'Administrator' };
-    } else if (user === 'member' && pass === 'member') {
-        state.currentUser = { role: 'member', username: 'GamerX' };
-    } else {
-        showToast('Login gagal!');
-        return;
+    function showToast(msg) {
+        const t = document.getElementById('toast');
+        if(!t) return;
+        t.innerText = msg;
+        t.style.display = 'block';
+        setTimeout(() => t.style.display = 'none', 3000);
     }
-    
-    document.getElementById('current-role-badge').innerText = state.currentUser.role;
-    document.getElementById('current-role-badge').className = 'badge badge-' + state.currentUser.role;
-    showToast('Selamat datang ' + state.currentUser.username);
-    showView('home');
-}
 
-function handleLogout() {
-    state.currentUser = { role: 'guest', username: null };
-    document.getElementById('current-role-badge').innerText = 'guest';
-    document.getElementById('current-role-badge').className = 'badge badge-guest';
-    showView('home');
-}
-
-function showRegister() {
-    document.getElementById('account-guest').style.display = 'none';
-    document.getElementById('account-register').style.display = 'block';
-}
-
-function submitRegister() {
-    showToast("Permintaan terkirim. Silakan konfirmasi di WhatsApp.");
-    showView('home');
-}
-
-// --- 4. ADMIN PANEL TABS ---
-function loadAdminTab(tab) {
-    const content = document.getElementById('admin-content');
-    if (tab === 'members') {
-        content.innerHTML = `
-                    <h3>Pending Approval</h3>
-                    <div style="margin-top:10px; display:grid; gap:10px;">
-                        <div class="card" style="display:flex; justify-content:space-between; align-items:center;">
-                            <span>User_Budi</span>
-                            <div>
-                                <button class="badge badge-member" style="border:none">Approve</button>
-                                <button class="badge badge-admin" style="background:var(--danger); border:none">Reject</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-    } else {
-        content.innerHTML = `Tab ${tab} Sedang Dimuat...`;
+    function togglePass(id) {
+        const x = document.getElementById(id);
+        x.type = x.type === "password" ? "text" : "password";
     }
-}
 
-// --- 5. HELPERS ---
-function toggleTheme() {
-    const body = document.body;
-    if (state.theme === 'dark') {
-        body.classList.add('amoled');
-        state.theme = 'amoled';
-    } else {
-        body.classList.remove('amoled');
-        state.theme = 'dark';
-    }
-}
-
-function showToast(msg) {
-    const t = document.getElementById('toast');
-    t.innerText = msg;
-    t.style.display = 'block';
-    setTimeout(() => t.style.display = 'none', 3000);
-}
-
-function togglePass(id) {
-    const x = document.getElementById(id);
-    x.type = x.type === "password" ? "text" : "password";
-}
-
-function openRequestForm() {
-    if (state.currentUser.role === 'guest') {
-        showToast("Silakan Login terlebih dahulu");
-        showView('account');
-    } else {
-        alert("Membuka form request...");
-    }
-}
-
-// Initialize
-renderHome();
-</script> 
-</body> 
-</html>
+    // INITIALIZE
+    syncDatabase(); // Panggil fungsi sinkronisasi saat startup
+</script>
