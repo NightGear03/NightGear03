@@ -466,24 +466,39 @@
         }
     }
 
-    function handleLogin() {
-        const user = document.getElementById('login-user').value;
-        const pass = document.getElementById('login-pass').value;
-        
-        if (user === 'admin' && pass === 'admin') {
-            state.currentUser = { role: 'admin', username: 'Administrator' };
-        } else if (user === 'member' && pass === 'member') {
-            state.currentUser = { role: 'member', username: 'GamerX' };
+    async function handleLogin() {
+    const userinput = document.getElementById('login-user').value;
+    const passinput = document.getElementById('login-pass').value;
+
+    showToast("Mengecek akun...");
+
+    try {
+        // Ambil data dari tab Users di Google Sheet
+        const response = await fetch('/api/data?sheet=Users');
+        const users = await response.json();
+
+        // Cari user yang username dan passwordnya cocok
+        const foundUser = users.find(u => u.username === userinput && u.password === passinput);
+
+        if (foundUser) {
+            state.currentUser = { 
+                role: foundUser.role, // Pastikan di Sheet ada kolom 'role' (admin/member)
+                username: foundUser.username 
+            };
+            
+            document.getElementById('current-role-badge').innerText = state.currentUser.role;
+            document.getElementById('current-role-badge').className = 'badge badge-' + state.currentUser.role;
+            
+            showToast('Selamat datang ' + state.currentUser.username);
+            showView('home');
         } else {
-            showToast('Login gagal!');
-            return;
+            showToast('Username atau Password salah!');
         }
-        
-        document.getElementById('current-role-badge').innerText = state.currentUser.role;
-        document.getElementById('current-role-badge').className = 'badge badge-' + state.currentUser.role;
-        showToast('Selamat datang ' + state.currentUser.username);
-        showView('home');
+    } catch (err) {
+        showToast('Gagal terhubung ke server login');
     }
+}
+
 
     function handleLogout() {
         state.currentUser = { role: 'guest', username: null };
